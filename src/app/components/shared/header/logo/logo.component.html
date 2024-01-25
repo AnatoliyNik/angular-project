@@ -1,1 +1,14 @@
-<p>logo works!</p>
+<div class="logo">
+  <svg>
+    <linearGradient id="linear-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#238888"/>
+      <stop offset="40%" stop-color="#4cd7d7"/>
+      <stop offset="70%" stop-color="#9F9806FF"/>
+      <stop offset="100%" stop-color="#98EC08FF"/>
+    </linearGradient>
+
+    <use href="assets/icons.svg#play"  fill="url(#linear-gradient)"></use>
+  </svg>
+
+  <span>{{ logo | uppercase }}</span>
+</div>

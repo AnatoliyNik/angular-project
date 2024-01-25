@@ -1,0 +1,27 @@
+.container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.courses-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.btn-add {
+  align-self: flex-end;
+}
+
+.btn-load {
+  color: blue;
+  text-decoration: underline;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+svg {
+  width: 30px;
+  height: 30px;
+  margin-left: -5px;
+}

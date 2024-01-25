@@ -1,1 +1,22 @@
-<p>courses-page works!</p>
+<app-breadcrumbs />
+
+<div class="container">
+  <app-search />
+
+  <div class="courses-container">
+    <button class="btn btn-info btn-add">
+      <svg>
+        <use href="assets/icons.svg#add"></use>
+      </svg>
+      <span>{{ addCourseButtonText }}</span>
+    </button>
+
+    @for (course of courses; track course.id) {
+      <app-course [course]="course" (delete)="onDeleteCourse($event)"/>
+    } @empty {
+      <p>There are no courses</p>
+    }
+
+    <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>
+  </div>
+</div>
