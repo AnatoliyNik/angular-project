@@ -1,0 +1,32 @@
+.search-container {
+  display: flex;
+  gap: 10px;
+}
+
+.form-control {
+  width: 300px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.search {
+  position: relative;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 35px;
+}
+
+.clear {
+  cursor: pointer;
+  position: absolute;
+  padding: 0;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  border-radius: 100px;
+}

@@ -1,1 +1,20 @@
-<p>header works!</p>
+<div class="container">
+    <app-logo />
+
+    <ul class="login">
+        <li>
+            <svg>
+                <use href="assets/icons.svg#user"></use>
+            </svg>
+            <span>user name placeholder</span>
+        </li>
+        <li>
+            <button class="btn btn-link">
+                <svg>
+                    <use href="assets/icons.svg#logout"></use>
+                </svg>
+                <span>{{ logoutButtonText }}</span>
+            </button>
+        </li>
+    </ul>
+</div>

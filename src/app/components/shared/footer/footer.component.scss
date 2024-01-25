@@ -1,0 +1,15 @@
+@use "variables";
+
+:host {
+  position: sticky;
+  bottom: 0;
+  color: variables.$lightColor;
+  background-color: variables.$headerBackgroundColor;
+}
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

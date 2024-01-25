@@ -1,0 +1,34 @@
+@use "variables";
+
+:host {
+  position: sticky;
+  top: 0;
+  color: variables.$lightColor;
+  background-color: variables.$headerBackgroundColor;
+}
+
+.container,
+.login,
+.login > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.login {
+  gap: 30px;
+}
+
+.login > li {
+  gap: 5px;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+}

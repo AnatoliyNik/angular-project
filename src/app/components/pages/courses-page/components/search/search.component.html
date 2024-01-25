@@ -1,1 +1,30 @@
-<p>search works!</p>
+<div class="search-container">
+
+  <div class="search">
+    <svg>
+      <use href="assets/icons.svg#search"></use>
+    </svg>
+    <input
+      class="form-control"
+      type="text"
+      [placeholder]="searchPlaceholderText"
+      [formControl]="search"
+    >
+
+    @if (isShowClearButton) {
+      <button
+        class="clear btn btn-link"
+        (click)="clearSearch()"
+      >
+        &#x2716;
+      </button>
+    }
+  </div>
+
+  <button
+    class="btn btn-success btn-large"
+    (click)="onSearch()"
+  >
+    {{ searchButtonText }}
+  </button>
+</div>
