@@ -12,9 +12,9 @@
     </button>
 
     @for (course of courses; track course.id) {
-      <app-course [course]="course" (delete)="onDeleteCourse($event)"/>
+      <app-course [course]="course" (delete)="onDeleteCourse($event)" />
     } @empty {
-      <p>There are no courses</p>
+      <p data-testId="noCourseMessage">{{ noCoursesMessage }}</p>
     }
 
     <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>

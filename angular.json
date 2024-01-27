@@ -85,6 +85,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/partials"
+              ]
+            },
             "polyfills": [
               "zone.js",
               "zone.js/testing"
