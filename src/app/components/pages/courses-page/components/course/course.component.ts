@@ -17,7 +17,7 @@ export class CourseComponent {
   readonly deleteButtonText = 'Delete';
 
   @Input({required: true})
-  course!: Course
+  course: Course = {} as Course
 
   @Output()
   delete: EventEmitter<string> = new EventEmitter<string>();

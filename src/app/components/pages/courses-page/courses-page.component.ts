@@ -22,6 +22,7 @@ import { UpperCasePipe } from "@angular/common";
 export class CoursesPageComponent implements OnInit {
   readonly addCourseButtonText = 'Add course';
   readonly loadMoreButtonText = 'Load more';
+  readonly noCoursesMessage = 'There are no courses';
 
   courses: Course[] = [];
 
