@@ -9,6 +9,8 @@
       type="text"
       [placeholder]="searchPlaceholderText"
       [formControl]="search"
+      (keyup.enter)="onSearch()"
+      #searchInput
     >
 
     @if (isShowClearButton) {

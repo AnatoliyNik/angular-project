@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef, ElementRef, EventEmitter,
+  inject,
+  OnInit,
+  Output, ViewChild,
+} from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-search',
@@ -21,19 +28,26 @@ export class SearchComponent implements OnInit {
 
   destroyRef: DestroyRef = inject(DestroyRef);
 
+  @ViewChild('searchInput')
+  searchInput!: ElementRef;
+
+  @Output()
+  searchText: EventEmitter<string> = new EventEmitter<string>();
+
   ngOnInit(): void {
     this.search.valueChanges.pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((value: string) => {
       this.isShowClearButton = Boolean(value.length);
-    })
+    });
   }
 
   clearSearch(): void {
     this.search.reset();
+    (this.searchInput.nativeElement as HTMLInputElement).focus();
   }
 
   onSearch(): void {
-    console.log(this.search.value)
+    this.searchText.emit(this.search.value);
   }
 }

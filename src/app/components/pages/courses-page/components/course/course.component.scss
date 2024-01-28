@@ -8,12 +8,15 @@
   background-color: variables.$lightColor;
   padding: 25px;
   border-radius: 10px;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+  box-shadow: variables.$boxShadow;
 }
 
 .title {
   grid-column: 1;
   grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .info {
@@ -46,4 +49,12 @@
 svg {
   width: 20px;
   height: 20px;
+}
+
+.star {
+  color: goldenrod;
+}
+
+.top-rated {
+  background-color: #effbff;
 }

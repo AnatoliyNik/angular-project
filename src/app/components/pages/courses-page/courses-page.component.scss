@@ -1,3 +1,5 @@
+@use "variables";
+
 .container {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -24,4 +26,12 @@ svg {
   width: 30px;
   height: 30px;
   margin-left: -5px;
+}
+
+.message {
+  background-color: variables.$lightColor;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: variables.$boxShadow;
 }

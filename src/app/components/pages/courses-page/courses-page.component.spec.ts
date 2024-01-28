@@ -21,7 +21,7 @@ describe('CoursesPageComponent', () => {
   it('should properly render courses', () => {
     const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
 
-    coursesPageComponent.courses = [...courses];
+    coursesPageComponent.courses.set([...courses]);
     changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
@@ -31,17 +31,17 @@ describe('CoursesPageComponent', () => {
     expect(courseDebugEl?.length).toBe(courses.length);
   });
 
-  it('should display message if there are no courses', () => {
+  it('should display message if there are no courses in uppercase', () => {
     const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
 
-    coursesPageComponent.courses = [];
+    coursesPageComponent.courses.set([]);
     changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
 
     const courseDebugEl: DebugElement | null = coursePageDebugEl.query(By.css('[data-testId="noCourseMessage"]'))
 
-    expect(courseDebugEl?.nativeElement.innerText).toContain(coursesPageComponent.noCoursesMessage);
+    expect(courseDebugEl?.nativeElement.innerText).toContain(coursesPageComponent.noCoursesMessage.toUpperCase());
   });
 
   it('should render search component', () => {
