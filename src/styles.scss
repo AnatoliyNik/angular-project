@@ -31,7 +31,7 @@ body {
   background-color: variables.$lightColor;
   padding: 5px 15px;
   border-radius: 5px;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, .3);
+  box-shadow: variables.$boxShadow;
   font: 1rem 'Roboto', sans-serif;
 
   &:hover:not([disabled]) {

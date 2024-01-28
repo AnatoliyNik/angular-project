@@ -1,12 +1,24 @@
-<article class="course">
-  <h3 class="title">{{ course.title }}</h3>
+<article
+  data-id="course"
+  class="course"
+  [ngClass]="course.topRated ? 'top-rated' : ''"
+>
+  <h3 class="title">
+    {{ course.title }}
+
+    @if (course.topRated) {
+      <svg class="star">
+        <use href="assets/icons.svg#star"></use>
+      </svg>
+    }
+  </h3>
   <p class="description">{{ course.description }}</p>
   <ul class="info">
     <li class="info-item">
       <svg>
         <use href="assets/icons.svg#time"></use>
       </svg>
-      <span>{{ course.duration }}</span>
+      <span>{{ course.duration | duration }}</span>
     </li>
     <li class="info-item">
       <svg>

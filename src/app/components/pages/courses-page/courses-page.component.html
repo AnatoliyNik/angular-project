@@ -1,7 +1,7 @@
 <app-breadcrumbs />
 
 <div class="container">
-  <app-search />
+  <app-search (searchText)="onSearch($event)"/>
 
   <div class="courses-container">
     <button class="btn btn-info btn-add">
@@ -11,12 +11,19 @@
       <span>{{ addCourseButtonText }}</span>
     </button>
 
-    @for (course of courses; track course.id) {
+    @for (course of courses(); track course.id) {
       <app-course [course]="course" (delete)="onDeleteCourse($event)" />
     } @empty {
-      <p data-testId="noCourseMessage">{{ noCoursesMessage }}</p>
+      <p
+        data-testId="noCourseMessage"
+        class="message"
+      >
+        {{ noCoursesMessage | uppercase }}
+      </p>
     }
 
-    <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>
+    @if (courses().length) {
+      <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>
+    }
   </div>
 </div>
