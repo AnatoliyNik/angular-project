@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectorRef, Component, DebugElement, Input } from "@angular/core";
-import { By } from "@angular/platform-browser";
+import { ChangeDetectorRef, Component, DebugElement, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { CoursesPageComponent } from './courses-page.component';
-import { CourseComponent } from "./components/course/course.component";
-import { BreadcrumbsComponent } from "./components/breadcrumbs/breadcrumbs.component";
-import { SearchComponent } from "./components/search/search.component";
+import { CourseComponent } from './components/course/course.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { SearchComponent } from './components/search/search.component';
 
-import { Course } from "../../../models/course.model";
+import { Course } from '@models/course.model';
 
-import { courses } from "../../../data/mock-data";
+import { courses } from '@data/mock-data';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CoursesPageComponent', () => {
   it('should create', () => {
@@ -21,12 +22,12 @@ describe('CoursesPageComponent', () => {
   it('should properly render courses', () => {
     const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
 
-    coursesPageComponent.courses.set([...courses]);
+    coursesPageComponent.coursesToDisplay.set([...courses]);
     changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
 
-    const courseDebugEl: DebugElement[] | null = coursePageDebugEl.queryAll(By.directive(CourseComponent))
+    const courseDebugEl: DebugElement[] | null = coursePageDebugEl.queryAll(By.directive(CourseComponent));
 
     expect(courseDebugEl?.length).toBe(courses.length);
   });
@@ -34,12 +35,12 @@ describe('CoursesPageComponent', () => {
   it('should display message if there are no courses in uppercase', () => {
     const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
 
-    coursesPageComponent.courses.set([]);
+    coursesPageComponent.coursesToDisplay.set([]);
     changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
 
-    const courseDebugEl: DebugElement | null = coursePageDebugEl.query(By.css('[data-testId="noCourseMessage"]'))
+    const courseDebugEl: DebugElement | null = coursePageDebugEl.query(By.css('[data-testId="noCourseMessage"]'));
 
     expect(courseDebugEl?.nativeElement.innerText).toContain(coursesPageComponent.noCoursesMessage.toUpperCase());
   });
@@ -102,10 +103,14 @@ function setup() {
       imports: [
         StubBreadcrumbsComponent,
         StubSearchComponent,
-        StubCourseComponent
+        StubCourseComponent,
       ]
     }
-  })
+  });
+
+  TestBed.configureTestingModule({
+    imports: [NoopAnimationsModule]
+  });
 
   const fixture: ComponentFixture<CoursesPageComponent> = TestBed.createComponent(CoursesPageComponent);
   const coursePageDebugEl: DebugElement = fixture.debugElement;
@@ -119,5 +124,5 @@ function setup() {
     coursePageDebugEl,
     coursesPageComponent,
     changeDetectorRef
-  }
+  };
 }

@@ -1,0 +1,32 @@
+<div class="backdrop"></div>
+
+<section class="modal-window">
+  <header class="header">
+    <h3 class="title">{{ title }}</h3>
+
+    <button
+      class="btn btn-link close"
+      (click)="onAnswer(false)"
+    >
+      &times;
+    </button>
+  </header>
+
+  <main class="content">{{ text }}</main>
+
+  <footer class="actions">
+    <button
+      class="btn btn-large cancel"
+      (click)="onAnswer(false)"
+    >
+      {{ cancelButtonText }}
+    </button>
+
+    <button
+      class="btn btn-large btn-success"
+      (click)="onAnswer(true)"
+    >
+      {{ okButtonText }}
+    </button>
+  </footer>
+</section>

@@ -9,5 +9,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-  readonly footerText = 'Copyright © Videocourses. All rights reserved'
+  readonly footerText = 'Copyright © Video courses. All rights reserved'
 }

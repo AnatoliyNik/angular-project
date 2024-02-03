@@ -1,7 +1,10 @@
 <div class="container">
     <app-logo />
 
-    <ul class="login">
+    <ul
+      *appIfAuthenticated
+      class="login"
+    >
         <li>
             <svg>
                 <use href="assets/icons.svg#user"></use>
@@ -9,7 +12,10 @@
             <span>user name placeholder</span>
         </li>
         <li>
-            <button class="btn btn-link">
+            <button
+              class="btn btn-link"
+              (click)="onLogout()"
+            >
                 <svg>
                     <use href="assets/icons.svg#logout"></use>
                 </svg>

@@ -1,0 +1,52 @@
+@use "variables";
+@use "keyframes";
+
+$padding: 25px;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  animation: backdrop .2s linear forwards;
+}
+
+.modal-window {
+  background: variables.$lightColor;
+  max-width: 500px;
+  width: 100%;
+  position: fixed;
+  left: 50%;
+  top: 200px;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $padding;
+}
+
+.title {
+  flex-grow: 1;
+}
+
+.close {
+  font-size: 30px;
+  line-height: .5;
+}
+
+.content {
+  padding: $padding;
+  border-top: 1px solid variables.$borderColor;
+  border-bottom: 1px solid variables.$borderColor;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: calc($padding / 2) $padding;
+}
+

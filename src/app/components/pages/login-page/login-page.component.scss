@@ -1,0 +1,42 @@
+@use "variables";
+
+.login-page-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+.form {
+  background: variables.$lightColor;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: variables.$boxShadow;
+}
+
+.form-control {
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-link {
+  color: variables.$anchorColor;
+  text-decoration: underline;
+}

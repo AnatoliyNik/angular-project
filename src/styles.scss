@@ -45,6 +45,7 @@ body {
   &:disabled {
     opacity: .6;
     cursor: not-allowed;
+    filter: grayscale(1);
   }
 }
 
@@ -52,6 +53,7 @@ body {
   background-color: transparent;
   box-shadow: none;
   color: inherit;
+  padding: 0;
 }
 
 .btn-success {
