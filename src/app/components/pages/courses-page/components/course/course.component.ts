@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
-import { Course } from '../../../../../models/course.model';
-import { ColorDirective } from '../../../../../directives/color.directive';
-import { DurationPipe } from '../../../../../pipes/duration.pipe';
+import { ColorDirective } from '@directives/color.directive';
+import { DurationPipe } from '@pipes/duration.pipe';
+import { Course } from '@models/course.model';
 
 @Component({
   selector: 'app-course',
@@ -28,9 +28,9 @@ export class CourseComponent {
   course: Course = {} as Course;
 
   @Output()
-  delete: EventEmitter<string> = new EventEmitter<string>();
+  delete: EventEmitter<Course> = new EventEmitter<Course>();
 
-  onDeleteCourse(id: string): void {
-    this.delete.emit(id);
+  onDeleteCourse(course: Course): void {
+    this.delete.emit(course);
   }
 }

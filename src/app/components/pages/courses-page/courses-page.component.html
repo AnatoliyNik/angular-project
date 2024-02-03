@@ -11,8 +11,12 @@
       <span>{{ addCourseButtonText }}</span>
     </button>
 
-    @for (course of courses(); track course.id) {
-      <app-course [course]="course" (delete)="onDeleteCourse($event)" />
+    @for (course of coursesToDisplay(); track course.id) {
+      <app-course
+        [course]="course"
+        (delete)="onDeleteCourse($event)"
+        [@appearance]
+      />
     } @empty {
       <p
         data-testId="noCourseMessage"
@@ -22,7 +26,7 @@
       </p>
     }
 
-    @if (courses().length) {
+    @if (coursesToDisplay().length) {
       <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>
     }
   </div>

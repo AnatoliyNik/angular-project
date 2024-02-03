@@ -1,1 +1,53 @@
-<p>login-page works!</p>
+<div class="login-page-container">
+  <form
+    class="form"
+    [formGroup]="form"
+    (ngSubmit)="onLogin()"
+  >
+    <h1>{{ title }}</h1>
+
+    <div class="field">
+      <p class="label">
+        <label for="name">{{ nameLabelText }}</label>
+        <span>{{ required }}</span>
+      </p>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        [placeholder]="nameInputPlaceholderText"
+        formControlName="name"
+      >
+    </div>
+
+    <div class="field">
+      <p class="label">
+        <label for="password">{{ passwordLabelText }}</label>
+        <span>{{ required }}</span>
+      </p>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        [placeholder]="passwordInputPlaceholderText"
+        formControlName="password"
+      >
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn btn-link"
+        type="button"
+      >
+        {{ forgotButtonText }}
+      </button>
+
+      <button
+        class="btn btn-success btn-large"
+        [disabled]="form.invalid || form.pending"
+      >
+        {{ loginButtonText }}
+      </button>
+    </div>
+  </form>
+</div>
