@@ -1,0 +1,47 @@
+@use "variables";
+
+.container {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.form-container {
+  background: variables.$lightColor;
+  border-radius: 10px;
+  box-shadow: variables.$boxShadow;
+  padding: 35px 25px;
+}
+
+.title {
+  padding-bottom: 20px;
+}
+
+#description {
+  resize: block;
+  min-block-size: 150px;
+}
+
+.form-handle {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.duration,
+.date {
+  max-width: 250px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}

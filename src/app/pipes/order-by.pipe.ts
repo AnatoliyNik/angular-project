@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Course } from '../models/course.model';
-import { sortByField } from '../helpers/sortByField';
+import { Course } from '@models/course.model';
+import { sortByField } from '@helpers/sort-by-field';
 
 @Pipe({
   name: 'orderBy',

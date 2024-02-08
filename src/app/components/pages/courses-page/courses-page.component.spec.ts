@@ -51,13 +51,6 @@ describe('CoursesPageComponent', () => {
 
     expect(searchDebugEl).not.toBeNull();
   });
-
-  it('should render breadcrumbs component', () => {
-    const {coursePageDebugEl} = setup();
-    const searchDebugEl: DebugElement | null = coursePageDebugEl.query(By.directive(BreadcrumbsComponent));
-
-    expect(searchDebugEl).not.toBeNull();
-  });
 });
 
 
@@ -82,15 +75,6 @@ function setup() {
   class StubSearchComponent implements Partial<SearchComponent> {
   }
 
-  @Component({
-    selector: 'app-breadcrumbs',
-    template: '',
-    standalone: true,
-    providers: [{provide: BreadcrumbsComponent, useExisting: StubBreadcrumbsComponent}]
-  })
-  class StubBreadcrumbsComponent implements Partial<BreadcrumbsComponent> {
-  }
-
   TestBed.overrideComponent(CoursesPageComponent, {
     remove: {
       imports: [
@@ -101,7 +85,6 @@ function setup() {
     },
     add: {
       imports: [
-        StubBreadcrumbsComponent,
         StubSearchComponent,
         StubCourseComponent,
       ]
