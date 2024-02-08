@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Course } from '../models/course.model';
-import { filterByQuery } from '../helpers/filterByQuery';
+import { Course } from '@models/course.model';
+import { filterByQuery } from '@helpers/filter-by-query';
 
 @Pipe({
   name: 'filter',

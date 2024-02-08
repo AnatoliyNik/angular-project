@@ -1,0 +1,9 @@
+<input
+  class="form-control"
+  type="text"
+  [placeholder]="placeholder"
+  id="duration"
+  (input)="onInput($event)"
+>
+
+<span class="minutes">{{ minutes | duration }}</span>

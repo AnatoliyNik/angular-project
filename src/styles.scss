@@ -1,4 +1,5 @@
 @use "variables";
+@use "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
 
 * {
@@ -73,6 +74,7 @@ body {
 
 .form-control {
   outline: none;
+  width: 100%;
   border: 1px solid variables.$borderColor;
   border-radius: 5px;
   padding: 10px 15px;

@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="form-container">
+    <h1 class="title">{{ pageTitle }}</h1>
+
+    <form class="form-handle">
+      <div class="form-field">
+        <div class="label">
+          <label for="title">{{ titleLabelText }}</label>
+          <span>{{ required }}</span>
+        </div>
+
+        <input
+          id="title"
+          type="text"
+          class="form-control"
+          [placeholder]="titleInputPlaceholderText"
+        >
+      </div>
+
+      <div class="form-field">
+        <div class="label">
+          <label for="description">{{ descriptionLabelText }}</label>
+          <span>{{ required }}</span>
+        </div>
+
+        <textarea
+          id="description"
+          type="text"
+          class="form-control "
+          [placeholder]="descriptionTextareaPlaceholderText"
+        ></textarea>
+      </div>
+
+      <div class="form-field duration">
+        <div class="label">
+          <label [for]="'duration'">{{ durationLabelText }}</label>
+          <span>{{ required }}</span>
+        </div>
+
+        <app-duration
+          [placeholder]="durationComponentPlaceholderText"
+        />
+      </div>
+
+      <div class="form-field date">
+        <div class="label">
+          <label [for]="'date'">{{ dateLabelText }}</label>
+          <span>{{ required }}</span>
+        </div>
+
+        <app-date
+          [placeholder]="dateComponentPlaceholderText"
+        />
+      </div>
+
+      <div class="form-field">
+        <div class="label">
+          <label [for]="'authors'">{{ authorsLabelText }}</label>
+          <span>{{ required }}</span>
+        </div>
+
+        <app-authors
+          [placeholder]="authorsComponentPlaceholderText"
+        />
+      </div>
+
+      <div class="actions">
+        <button
+          class="btn btn-large"
+          type="button"
+        >
+          {{ cancelButtonText }}
+        </button>
+
+        <button
+          class="btn btn-large btn-success"
+        >
+          {{ saveButtonText }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="date">
+  <input
+    class="form-control"
+    type="text"
+    [placeholder]="placeholder"
+    id="date"
+    (input)="onInput($event)"
+    [matDatepicker]="picker"
+    [defaultValue]="stringDate"
+    [max]="maxDate"
+    [min]="minDate"
+    [value]="date"
+  >
+  <button
+    type="button"
+    class="btn btn-link calendar"
+    (click)="openCalendar()"
+  >
+    <svg>
+      <use href="assets/icons.svg#calendar"></use>
+    </svg>
+  </button>
+
+  <mat-datepicker #picker/>
+</div>

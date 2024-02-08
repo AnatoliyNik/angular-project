@@ -6,7 +6,7 @@ import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 export class AuthService {
   private readonly userNameKey = 'userName';
   private readonly tokenKey = 'token';
-  private readonly isAuth: WritableSignal<boolean> = signal<boolean>(false);
+  private readonly isAuth: WritableSignal<boolean> = signal<boolean>(true);
 
   login(name: string): void {
     localStorage.setItem(this.tokenKey, 'token');
