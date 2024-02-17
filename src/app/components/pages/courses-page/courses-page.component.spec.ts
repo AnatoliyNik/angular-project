@@ -4,13 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { CoursesPageComponent } from './courses-page.component';
 import { CourseComponent } from './components/course/course.component';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { SearchComponent } from './components/search/search.component';
 
 import { Course } from '@models/course.model';
 
 import { courses } from '@data/mock-data';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CoursesPageComponent', () => {
   it('should create', () => {
@@ -78,7 +76,6 @@ function setup() {
   TestBed.overrideComponent(CoursesPageComponent, {
     remove: {
       imports: [
-        BreadcrumbsComponent,
         SearchComponent,
         CourseComponent
       ]
@@ -89,10 +86,6 @@ function setup() {
         StubCourseComponent,
       ]
     }
-  });
-
-  TestBed.configureTestingModule({
-    imports: [NoopAnimationsModule]
   });
 
   const fixture: ComponentFixture<CoursesPageComponent> = TestBed.createComponent(CoursesPageComponent);

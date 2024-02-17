@@ -1,3 +1,5 @@
+@use "variables";
+
 :host {
   display: block;
   background-color: white;
@@ -6,4 +8,14 @@
 
 .active {
   font-weight: bold;
+}
+
+.segments {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.divider {
+  color: variables.$infoColor;
 }

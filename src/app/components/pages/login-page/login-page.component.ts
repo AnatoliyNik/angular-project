@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LoginForm } from '@models/login-form.model';
 import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
+import { routePath } from '@data/constants';
 
 @Component({
   selector: 'app-login-page',
@@ -25,7 +27,8 @@ export class LoginPageComponent implements OnInit {
 
   form!: FormGroup<LoginForm>;
 
-  authService: AuthService = inject(AuthService);
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
 
   ngOnInit(): void {
     this.form = new FormGroup<LoginForm>({
@@ -40,5 +43,6 @@ export class LoginPageComponent implements OnInit {
     }
 
     this.authService.login(this.form.controls.name.value);
+    this.router.navigate([routePath.courses]);
   }
 }

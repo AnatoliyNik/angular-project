@@ -35,6 +35,8 @@
       "@tokens/*": ["app/tokens/*"],
       "@animations/*": ["app/animations/*"],
       "@providers/*": ["app/providers/*"],
+      "@resolvers/*": ["app/resolvers/*"],
+      "@guards/*": ["app/guards/*"],
     }
   },
   "angularCompilerOptions": {

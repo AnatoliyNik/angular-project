@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 import { ColorDirective } from '@directives/color.directive';
 import { DurationPipe } from '@pipes/duration.pipe';
 import { Course } from '@models/course.model';
+import { appearance } from '@animations/appearance.animation';
 
 @Component({
   selector: 'app-course',
@@ -18,11 +19,14 @@ import { Course } from '@models/course.model';
     directive: ColorDirective,
     inputs: ['course']
   }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [appearance]
 })
 export class CourseComponent {
   readonly editButtonText = 'Edit';
   readonly deleteButtonText = 'Delete';
+
+  @HostBinding('@appearance')
 
   @Input({required: true})
   course: Course = {} as Course;
@@ -30,7 +34,14 @@ export class CourseComponent {
   @Output()
   delete: EventEmitter<Course> = new EventEmitter<Course>();
 
+  @Output()
+  edit: EventEmitter<string> = new EventEmitter<string>();
+
   onDeleteCourse(course: Course): void {
     this.delete.emit(course);
+  }
+
+  onEditCourse(id: string): void {
+    this.edit.emit(id);
   }
 }

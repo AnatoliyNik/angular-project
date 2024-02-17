@@ -29,7 +29,10 @@
   </ul>
 
   <div class="action">
-    <button class="btn btn-info">
+    <button
+      class="btn btn-info"
+      (click)="onEditCourse(course.id)"
+    >
       <svg>
         <use href="assets/icons.svg#edit"></use>
       </svg>

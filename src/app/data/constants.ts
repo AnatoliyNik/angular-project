@@ -12,3 +12,13 @@ export const matDateFormats: MatDateFormats = {
   },
 };
 
+export const editCourseRouteIdParam = 'id';
+export const editCourseRouteResolverKey = 'course';
+
+export enum routePath {
+  courses = 'courses',
+  login = 'login',
+  notFound = 'not-found',
+  newCourse = 'courses/new',
+  editCourse = `courses/:${editCourseRouteIdParam}`
+}

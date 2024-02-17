@@ -23,18 +23,23 @@ export class CourseService {
   }
 
   update(id: string, newCourse: Partial<Course>): Course | undefined {
-    const index: number = this.courses$.value.findIndex(course => course.id === id);
+    const courses: Course[] = [...this.courses$.value];
+    const index: number = courses.findIndex(course => course.id === id);
 
     if (index < 0) {
       return;
     }
 
-    let updatedCourse: Course = this.courses$.value[index];
+    let updatedCourse: Course = courses[index];
 
     updatedCourse = {
       ...updatedCourse,
       ...newCourse
     };
+
+    courses[index] = updatedCourse;
+
+    this.courses$.next(courses);
 
     return updatedCourse;
   }

@@ -2,7 +2,10 @@
   <app-search (searchText)="onSearch($event)"/>
 
   <div class="courses-container">
-    <button class="btn btn-info btn-add">
+    <button
+      class="btn btn-info btn-add"
+      (click)="onAddCourse()"
+    >
       <svg>
         <use href="assets/icons.svg#add"></use>
       </svg>
@@ -13,7 +16,7 @@
       <app-course
         [course]="course"
         (delete)="onDeleteCourse($event)"
-        [@appearance]
+        (edit)="onEditCourse($event)"
       />
     } @empty {
       <p
