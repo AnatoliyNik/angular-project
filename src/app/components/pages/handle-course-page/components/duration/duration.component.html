@@ -4,6 +4,11 @@
   [placeholder]="placeholder"
   id="duration"
   (input)="onInput($event)"
+  [disabled]="disabled"
+  (blur)="onBlur()"
+  [value]="minutes || ''"
 >
 
-<span class="minutes">{{ minutes | duration }}</span>
+@if (minutes) {
+  <span class="minutes">{{ minutes | duration }}</span>
+}

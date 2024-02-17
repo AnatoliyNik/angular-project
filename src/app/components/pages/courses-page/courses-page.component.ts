@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UpperCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { SearchComponent } from './components/search/search.component';
@@ -17,8 +18,8 @@ import { CourseService } from '@services/course.service';
 import { OrderByPipe } from '@pipes/order-by.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
 import { Course } from '@models/course.model';
-import { appearance } from '@animations/appearance.animation';
 import { ModalService } from '@services/modal.service';
+import { routePath } from '@data/constants';
 
 @Component({
   selector: 'app-courses-page',
@@ -33,7 +34,6 @@ import { ModalService } from '@services/modal.service';
   templateUrl: './courses-page.component.html',
   styleUrl: './courses-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [appearance]
 })
 export class CoursesPageComponent implements OnInit {
   readonly addCourseButtonText = 'Add course';
@@ -42,11 +42,13 @@ export class CoursesPageComponent implements OnInit {
 
   coursesToDisplay: WritableSignal<Course[]> = signal<Course[]>([]);
   allCourses: Course[] = [];
-  orderByPipe: OrderByPipe = inject(OrderByPipe);
-  filterPipe: FilterPipe = inject(FilterPipe);
-  courseService: CourseService = inject(CourseService);
-  modalService: ModalService = inject(ModalService);
-  destroyRef: DestroyRef = inject(DestroyRef);
+
+  private orderByPipe: OrderByPipe = inject(OrderByPipe);
+  private filterPipe: FilterPipe = inject(FilterPipe);
+  private courseService: CourseService = inject(CourseService);
+  private modalService: ModalService = inject(ModalService);
+  private destroyRef: DestroyRef = inject(DestroyRef);
+  private router: Router = inject(Router);
 
   ngOnInit(): void {
     this.courseService.getAll().pipe(
@@ -70,5 +72,13 @@ export class CoursesPageComponent implements OnInit {
 
   onSearch(searchText: string): void {
     this.coursesToDisplay.set(this.filterPipe.transform(this.allCourses, searchText));
+  }
+
+  onEditCourse(id: string): void {
+    this.router.navigate([routePath.courses, id]);
+  }
+
+  onAddCourse(): void {
+    this.router.navigate([routePath.newCourse]);
   }
 }

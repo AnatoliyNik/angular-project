@@ -2,7 +2,11 @@
   <div class="form-container">
     <h1 class="title">{{ pageTitle }}</h1>
 
-    <form class="form-handle">
+    <form
+      class="form-handle"
+      [formGroup]="handleCourseForm"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="form-field">
         <div class="label">
           <label for="title">{{ titleLabelText }}</label>
@@ -14,6 +18,7 @@
           type="text"
           class="form-control"
           [placeholder]="titleInputPlaceholderText"
+          formControlName="title"
         >
       </div>
 
@@ -28,6 +33,7 @@
           type="text"
           class="form-control "
           [placeholder]="descriptionTextareaPlaceholderText"
+          formControlName="description"
         ></textarea>
       </div>
 
@@ -39,6 +45,7 @@
 
         <app-duration
           [placeholder]="durationComponentPlaceholderText"
+          formControlName="duration"
         />
       </div>
 
@@ -50,6 +57,7 @@
 
         <app-date
           [placeholder]="dateComponentPlaceholderText"
+          formControlName="creationDate"
         />
       </div>
 
@@ -68,12 +76,14 @@
         <button
           class="btn btn-large"
           type="button"
+          (click)="onCancel()"
         >
           {{ cancelButtonText }}
         </button>
 
         <button
           class="btn btn-large btn-success"
+          [disabled]="handleCourseForm.invalid ||  handleCourseForm.pending"
         >
           {{ saveButtonText }}
         </button>

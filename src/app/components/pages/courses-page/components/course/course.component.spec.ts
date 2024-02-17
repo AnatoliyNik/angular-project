@@ -5,6 +5,7 @@ import { By } from "@angular/platform-browser";
 import { CourseComponent } from './course.component';
 import { Course } from '@models/course.model';
 import { courses } from '@data/mock-data';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CourseComponent', () => {
 
@@ -48,6 +49,9 @@ function setup() {
     emittedCourse!: Course;
   }
 
+  TestBed.configureTestingModule({
+    imports: [NoopAnimationsModule]
+  })
   const fixture: ComponentFixture<HostCourseComponent> = TestBed.createComponent(HostCourseComponent);
   const courseDebugEl: DebugElement = fixture.debugElement.query(By.directive(CourseComponent));
 

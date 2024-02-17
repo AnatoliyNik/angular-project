@@ -10,7 +10,10 @@
     [max]="maxDate"
     [min]="minDate"
     [value]="date"
+    (blur)="onBlur()"
+    [disabled]="disabled"
   >
+
   <button
     type="button"
     class="btn btn-link calendar"
