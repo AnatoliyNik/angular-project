@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
-import { MatDatepicker, MatDatepickerInput } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { dateFromString } from '@helpers/date-from-string';
 import { validateDate } from '@helpers/date-validator';
@@ -54,6 +54,10 @@ export class DateComponent implements ControlValueAccessor {
       this.date = dateFromString(this.stringDate);
       this.onChange(this.date);
     }
+  }
+
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
+    event.targetElement.dispatchEvent(new Event('input', {bubbles: true}));
   }
 
   openCalendar(): void {

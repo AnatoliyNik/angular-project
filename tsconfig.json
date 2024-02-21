@@ -37,6 +37,8 @@
       "@providers/*": ["app/providers/*"],
       "@resolvers/*": ["app/resolvers/*"],
       "@guards/*": ["app/guards/*"],
+      "@strategies/*": ["app/strategies/*"],
+      "@environments/*": ["environments/*"],
     }
   },
   "angularCompilerOptions": {

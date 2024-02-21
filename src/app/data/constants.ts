@@ -1,4 +1,5 @@
 import { MatDateFormats } from '@angular/material/core';
+import { environment } from '@environments/environment.development';
 
 export const matDateFormats: MatDateFormats = {
   parse: {
@@ -22,3 +23,11 @@ export enum routePath {
   newCourse = 'courses/new',
   editCourse = `courses/:${editCourseRouteIdParam}`
 }
+
+const baseUrl: string = environment.coursesServerUrl;
+
+export const coursesServerUrl = {
+  login: `${baseUrl}auth/login`,
+  userinfo: `${baseUrl}auth/userInfo`,
+  courses: `${baseUrl}courses`
+};

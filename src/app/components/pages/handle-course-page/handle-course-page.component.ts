@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { DurationComponent } from '@component/pages/handle-course-page/components/duration/duration.component';
 import { DateComponent } from '@component/pages/handle-course-page/components/date/date.component';
@@ -44,6 +53,8 @@ export class HandleCoursePageComponent implements OnInit {
 
   handleCourseForm!: FormGroup<HandleCourseForm>;
   course?: Course;
+
+  error: WritableSignal<string> = signal<string>('');
 
   private courseService: CourseService = inject(CourseService);
   private route: ActivatedRoute = inject(ActivatedRoute);
@@ -89,18 +100,36 @@ export class HandleCoursePageComponent implements OnInit {
     } as Course;
 
     if (this.course) {
-      this.courseService.update(this.course.id, course);
-    } else {
-      const newCourse: Course = {
-        ...course,
-        id: String(Date.now()),
-        topRated: false
-      };
+      this.courseService.update(this.course.id, course).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+        next: () => {
+          this.router.navigate([routePath.courses]);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.error.set(error.message);
+        }
+      });
 
-      this.courseService.create(newCourse);
+      return;
     }
 
-    this.router.navigate([routePath.courses]);
+    const newCourse: Course = {
+      ...course,
+      id: String(Date.now()),
+      topRated: false
+    };
+
+    this.courseService.create(newCourse).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: () => {
+        this.router.navigate([routePath.courses]);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.error.set(error.message);
+      }
+    });
   }
 
   onCancel(): void {

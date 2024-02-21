@@ -4,13 +4,14 @@ import { ResolveFn } from '@angular/router';
 import { courseResolver } from './course.resolver';
 import { CourseService } from '@services/course.service';
 import { Course } from '@models/course.model';
+import { Observable, of } from 'rxjs';
 
 describe('courseResolver', () => {
-  const executeResolver: ResolveFn<Course | undefined> = (...resolverParameters) =>
+  const executeResolver: ResolveFn<Observable<Course | null>> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() => courseResolver(...resolverParameters));
   const courseServiceStub: Partial<CourseService> = {
-    getById(): Course | undefined {
-      return;
+    getById(): Observable<Course> {
+      return of();
     }
   };
 

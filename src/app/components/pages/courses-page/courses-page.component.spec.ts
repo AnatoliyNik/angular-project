@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectorRef, Component, DebugElement, Input } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ChangeDetectorRef, Component, DebugElement, Input, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { CoursesPageComponent } from './courses-page.component';
@@ -7,6 +8,7 @@ import { CourseComponent } from './components/course/course.component';
 import { SearchComponent } from './components/search/search.component';
 
 import { Course } from '@models/course.model';
+import { CourseDeletionError } from '@models/course-deletion-error.model';
 
 import { courses } from '@data/mock-data';
 
@@ -33,7 +35,7 @@ describe('CoursesPageComponent', () => {
   it('should display message if there are no courses in uppercase', () => {
     const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
 
-    coursesPageComponent.coursesToDisplay.set([]);
+    coursesPageComponent.canLoadMore = signal(false)
     changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
@@ -62,6 +64,8 @@ function setup() {
   class StubCourseComponent implements Partial<CourseComponent> {
     @Input()
     course!: Course;
+    @Input()
+    deleteError!: CourseDeletionError
   }
 
   @Component({
@@ -87,6 +91,10 @@ function setup() {
       ]
     }
   });
+
+  TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule]
+  })
 
   const fixture: ComponentFixture<CoursesPageComponent> = TestBed.createComponent(CoursesPageComponent);
   const coursePageDebugEl: DebugElement = fixture.debugElement;

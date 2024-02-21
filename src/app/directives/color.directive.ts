@@ -1,25 +1,20 @@
-import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
-import { Course } from '../models/course.model';
+import { Directive, ElementRef, inject, Input, Renderer2 } from '@angular/core';
+import { Course } from '@models/course.model';
 
 @Directive({
   standalone: true,
 })
-export class ColorDirective implements AfterViewInit {
+export class ColorDirective {
+  private renderer: Renderer2 = inject(Renderer2);
+  private elementRef: ElementRef = inject(ElementRef);
+
   @Input({required: true})
-  course!: Course;
-
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {
-  }
-
-  ngAfterViewInit(): void {
+  set course(course: Course) {
     const element = this.elementRef.nativeElement.querySelector('[data-id="course"]');
     const property = 'border';
     const fresh = '1px solid lime';
     const upcoming = '1px solid blue';
-    const creationDate: Date = this.course.creationDate;
+    const creationDate: Date = course.creationDate;
     const currentDate: Date = new Date();
     const amountOfDays = 14;
     const currentYear: number = currentDate.getFullYear();

@@ -4,7 +4,9 @@ import { provideRouter, withPreloading } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideCustomRouteReuseStrategy } from '@providers/custom-route-reuse-strategy.provider';
-import { NetworkAwarePreloadingStrategy } from './strategies/network-aware-preloading.strategy';
+import { NetworkAwarePreloadingStrategy } from '@strategies/network-aware-preloading.strategy';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +15,7 @@ export const appConfig: ApplicationConfig = {
       withPreloading(NetworkAwarePreloadingStrategy)
     ),
     provideAnimations(),
-    provideCustomRouteReuseStrategy()
+    provideCustomRouteReuseStrategy(),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ]
 };

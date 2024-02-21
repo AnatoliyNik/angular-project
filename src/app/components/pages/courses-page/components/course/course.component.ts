@@ -4,6 +4,7 @@ import { ColorDirective } from '@directives/color.directive';
 import { DurationPipe } from '@pipes/duration.pipe';
 import { Course } from '@models/course.model';
 import { appearance } from '@animations/appearance.animation';
+import { CourseDeletionError } from '@models/course-deletion-error.model';
 
 @Component({
   selector: 'app-course',
@@ -30,6 +31,9 @@ export class CourseComponent {
 
   @Input({required: true})
   course: Course = {} as Course;
+
+  @Input()
+  deleteError: CourseDeletionError | null = null;
 
   @Output()
   delete: EventEmitter<Course> = new EventEmitter<Course>();
