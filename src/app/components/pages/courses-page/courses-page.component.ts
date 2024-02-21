@@ -4,11 +4,13 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  Signal,
   signal,
   WritableSignal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UpperCasePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -20,6 +22,8 @@ import { FilterPipe } from '@pipes/filter.pipe';
 import { Course } from '@models/course.model';
 import { ModalService } from '@services/modal.service';
 import { routePath } from '@data/constants';
+import { CourseDeletionError } from '@models/course-deletion-error.model';
+import { EMPTY, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-courses-page',
@@ -41,21 +45,28 @@ export class CoursesPageComponent implements OnInit {
   readonly noCoursesMessage = 'No data. Feel free to add new course';
 
   coursesToDisplay: WritableSignal<Course[]> = signal<Course[]>([]);
-  allCourses: Course[] = [];
+  canLoadMore!: Signal<boolean>;
+  error: WritableSignal<string> = signal<string>('');
+  loadMoreError: WritableSignal<string> = signal<string>('');
+  deleteError: WritableSignal<CourseDeletionError | null> = signal<CourseDeletionError | null>(null);
 
-  private orderByPipe: OrderByPipe = inject(OrderByPipe);
-  private filterPipe: FilterPipe = inject(FilterPipe);
   private courseService: CourseService = inject(CourseService);
   private modalService: ModalService = inject(ModalService);
   private destroyRef: DestroyRef = inject(DestroyRef);
   private router: Router = inject(Router);
 
   ngOnInit(): void {
-    this.courseService.getAll().pipe(
+    this.canLoadMore = this.courseService.canLoadMore;
+
+    this.courseService.courses$.pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe((courses: Course[]) => {
-      this.allCourses = courses;
-      this.coursesToDisplay.set(this.orderByPipe.transform(courses));
+    ).subscribe({
+      next: (courses: Course[]) => {
+        this.coursesToDisplay.set(courses);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.error.set(error.message);
+      }
     });
   }
 
@@ -63,15 +74,33 @@ export class CoursesPageComponent implements OnInit {
     const modalTitle = 'Delete course?';
     const modalText = `Are you sure you want to delete "${course.title}"?`;
 
-    this.modalService.showConfirm(modalTitle, modalText).subscribe((answer: boolean) => {
-      if (answer) {
-        this.courseService.remove(course.id);
+    this.modalService.showConfirm(modalTitle, modalText).pipe(
+      switchMap((answer: boolean) => {
+        if (answer) {
+          return this.courseService.remove(course.id);
+        }
+
+        return EMPTY
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      error: (error: HttpErrorResponse) => {
+        const courseDeletionError: CourseDeletionError = {
+          id: course.id,
+          message: error.message
+        };
+        this.deleteError.set(courseDeletionError);
       }
     });
   }
 
   onSearch(searchText: string): void {
-    this.coursesToDisplay.set(this.filterPipe.transform(this.allCourses, searchText));
+    this.error.set('');
+    this.loadMoreError.set('');
+
+    this.courseService.search(searchText).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   onEditCourse(id: string): void {
@@ -80,5 +109,17 @@ export class CoursesPageComponent implements OnInit {
 
   onAddCourse(): void {
     this.router.navigate([routePath.newCourse]);
+  }
+
+  loadMore(): void {
+    this.loadMoreError.set('');
+
+    this.courseService.loadMore().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      error: (error: HttpErrorResponse) => {
+        this.loadMoreError.set(error.message);
+      }
+    });
   }
 }

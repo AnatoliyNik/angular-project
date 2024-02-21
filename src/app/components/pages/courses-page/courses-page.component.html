@@ -12,23 +12,39 @@
       <span>{{ addCourseButtonText }}</span>
     </button>
 
-    @for (course of coursesToDisplay(); track course.id) {
-      <app-course
-        [course]="course"
-        (delete)="onDeleteCourse($event)"
-        (edit)="onEditCourse($event)"
-      />
-    } @empty {
-      <p
-        data-testId="noCourseMessage"
-        class="message"
-      >
-        {{ noCoursesMessage | uppercase }}
-      </p>
+    @if (error()) {
+      <p class="error-message">{{ error() }}</p>
+    } @else {
+
+      @for (course of coursesToDisplay(); track course.id) {
+        <app-course
+          [course]="course"
+          [deleteError]="deleteError()"
+          (delete)="onDeleteCourse($event)"
+          (edit)="onEditCourse($event)"
+        />
+      }
+
+      @if (loadMoreError()) {
+        <p class="error-message">{{ loadMoreError() }}</p>
+      }
+
+      @if (canLoadMore()) {
+        <button
+          class="btn btn-load"
+          (click)="loadMore()"
+        >
+          {{ loadMoreButtonText | uppercase }}
+        </button>
+      } @else {
+        <p
+          data-testId="noCourseMessage"
+          class="message"
+        >
+          {{ noCoursesMessage | uppercase }}
+        </p>
+      }
     }
 
-    @if (coursesToDisplay().length) {
-      <button class="btn btn-load">{{ loadMoreButtonText | uppercase }}</button>
-    }
   </div>
 </div>

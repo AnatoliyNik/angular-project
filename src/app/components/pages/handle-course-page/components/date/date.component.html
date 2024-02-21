@@ -5,6 +5,7 @@
     [placeholder]="placeholder"
     id="date"
     (input)="onInput($event)"
+    (dateChange)="onDateChange($event)"
     [matDatepicker]="picker"
     [defaultValue]="stringDate"
     [max]="maxDate"

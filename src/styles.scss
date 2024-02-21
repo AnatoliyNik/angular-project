@@ -1,4 +1,5 @@
 @use "variables";
+@use "keyframes";
 @use "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
 
@@ -84,4 +85,20 @@ body {
     color: variables.$dimColor;
     font-size: 14px;
   }
+}
+
+.error {
+  color: variables.$warnColor;
+  font-size: 14px;
+  position: absolute;
+  animation: appear .2s ease-out;
+}
+
+.error-container {
+  position: relative;
+  height: 1rem;
+}
+
+.error-message {
+  color: variables.$warnColor;
 }

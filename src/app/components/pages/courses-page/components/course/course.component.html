@@ -50,4 +50,8 @@
       <span>{{ deleteButtonText }}</span>
     </button>
   </div>
+
+  @if (deleteError && course.id === deleteError.id) {
+    <div class="error-message">{{ deleteError.message }}</div>
+  }
 </article>
