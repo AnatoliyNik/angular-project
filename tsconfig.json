@@ -38,6 +38,7 @@
       "@resolvers/*": ["app/resolvers/*"],
       "@guards/*": ["app/guards/*"],
       "@strategies/*": ["app/strategies/*"],
+      "@interceptors/*": ["app/interceptors/*"],
       "@environments/*": ["environments/*"],
     }
   },

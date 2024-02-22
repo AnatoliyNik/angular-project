@@ -39,6 +39,10 @@ export class CourseService {
 
   private http: HttpClient = inject(HttpClient);
 
+  resetInitialLoadingStatus(): void {
+    this.isInitialLoading = true;
+  }
+
   getAll(): Observable<Course[]> {
     return this.http.get<CourseFromServer[]>(coursesServerUrl.courses, {
       params: {

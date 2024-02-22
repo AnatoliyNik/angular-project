@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
+import { SearchQueryFilter } from '@helpers/searchQueryFilter';
 
 @Component({
   selector: 'app-search',
@@ -20,7 +22,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-  readonly searchButtonText = 'Search';
   readonly searchPlaceholderText = 'Type to search';
 
   search: FormControl<string> = new FormControl<string>('', {nonNullable: true});
@@ -36,18 +37,18 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.search.valueChanges.pipe(
+      tap((value) => this.isShowClearButton = Boolean(value.length)),
+      filter(SearchQueryFilter),
+      debounceTime(300),
+      distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((value: string) => {
-      this.isShowClearButton = Boolean(value.length);
+      this.searchText.emit(value);
     });
   }
 
   clearSearch(): void {
     this.search.reset();
     (this.searchInput.nativeElement as HTMLInputElement).focus();
-  }
-
-  onSearch(): void {
-    this.searchText.emit(this.search.value);
   }
 }

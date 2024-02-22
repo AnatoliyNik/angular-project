@@ -6,6 +6,7 @@ import { Login } from '@models/login.model';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { UserToken } from '@models/user-token.model';
 import { User } from '@models/user.model';
+import { CourseService } from '@services/course.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
 
   private router: Router = inject(Router);
   private http: HttpClient = inject(HttpClient);
+  private courseService: CourseService = inject(CourseService);
 
   login(user: Login): Observable<UserToken> {
     return this.http.post<UserToken>(coursesServerUrl.login, user).pipe(
@@ -32,6 +34,7 @@ export class AuthService {
     this.isAuth.set(false);
 
     if (isNavigateToLoginPage) {
+      this.courseService.resetInitialLoadingStatus();
       this.router.navigate([routePath.login]);
     }
   }
