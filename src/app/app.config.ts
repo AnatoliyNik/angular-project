@@ -6,7 +6,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideCustomRouteReuseStrategy } from '@providers/custom-route-reuse-strategy.provider';
 import { NetworkAwarePreloadingStrategy } from '@strategies/network-aware-preloading.strategy';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { authInterceptor } from '@interceptors/auth.interceptor';
+import { loaderInterceptor } from '@interceptors/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     provideCustomRouteReuseStrategy(),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([
+      authInterceptor,
+      loaderInterceptor
+    ])),
   ]
 };

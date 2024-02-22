@@ -9,7 +9,6 @@
       type="text"
       [placeholder]="searchPlaceholderText"
       [formControl]="search"
-      (keyup.enter)="onSearch()"
       #searchInput
     >
 
@@ -22,11 +21,4 @@
       </button>
     }
   </div>
-
-  <button
-    class="btn btn-success btn-large"
-    (click)="onSearch()"
-  >
-    {{ searchButtonText }}
-  </button>
 </div>

@@ -16,6 +16,7 @@ import {
   switchMap,
   tap
 } from 'rxjs';
+import { LoaderComponent } from '@component/shared/loader/loader.component';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,26 @@ export class ModalService {
   private injector: EnvironmentInjector = inject(EnvironmentInjector);
   private confirmQueue: ConfirmWindow[] = [];
   private isConfirmWindowOpened = false;
+  private loaderComponentRef: ComponentRef<LoaderComponent> | null = null;
 
-  showConfirm(title= '', text = ''): Observable<boolean> {
+  showLoader(): void {
+    if (this.loaderComponentRef) {
+      return;
+    }
+
+    this.loaderComponentRef = this.createComponent(LoaderComponent);
+  }
+
+  hideLoader(): void {
+    if (!this.loaderComponentRef) {
+      return;
+    }
+
+    this.loaderComponentRef.destroy();
+    this.loaderComponentRef = null;
+  }
+
+  showConfirm(title = '', text = ''): Observable<boolean> {
     const result$: ReplaySubject<Observable<boolean>> = new ReplaySubject<Observable<boolean>>(1);
     const confirmData: ConfirmWindow = {title, text, result$};
 
@@ -63,7 +82,7 @@ export class ModalService {
         this.openConfirm();
       }),
       first()
-    )
+    );
 
     confirmData.result$.next(confirmResult$);
   }

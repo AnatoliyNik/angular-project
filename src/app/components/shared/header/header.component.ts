@@ -5,6 +5,7 @@ import {
   inject,
   signal,
   Signal,
+  untracked,
   WritableSignal
 } from '@angular/core';
 import { LogoComponent } from './logo/logo.component';
@@ -37,7 +38,9 @@ export class HeaderComponent {
         this.authService.getUserInfo().pipe(
           first()
         ).subscribe((userName: string) => {
-          this.userName.set(userName);
+          untracked(() => {
+            this.userName.set(userName);
+          });
         });
       }
     });
