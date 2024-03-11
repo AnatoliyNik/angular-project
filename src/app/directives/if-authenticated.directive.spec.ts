@@ -1,8 +1,11 @@
-import { Component, DebugElement, Signal, signal } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthService } from '@services/auth.service';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
 import { IfAuthenticatedDirective } from './if-authenticated.directive';
+import { loginFeature } from '@store/features/login-page.feature';
+import { loginInitialState } from '@store/states/login.state';
 
 describe('IfAuthenticatedDirective', () => {
   it('should create an instance', () => {
@@ -31,24 +34,31 @@ function setup(isAuth: boolean = true) {
       IfAuthenticatedDirective
     ],
     standalone: true,
-    providers: [{
-      provide: AuthService,
-      useValue: {
-        isAuthenticated: (): Signal<boolean> => signal(isAuth).asReadonly()
-      }
-    }]
   })
   class HostTestComponent {
   }
+
+  TestBed.configureTestingModule({
+    providers: [provideMockStore({
+      initialState: {
+        [loginFeature.name]: {
+          ...loginInitialState,
+          isAuth
+        }
+      }
+    })]
+  })
 
   const fixture: ComponentFixture<HostTestComponent> = TestBed.createComponent(HostTestComponent);
   fixture.detectChanges();
   const testDebugEl: DebugElement = fixture.debugElement.query(By.css('#test'));
   const ifAuthenticatedDirective: IfAuthenticatedDirective = testDebugEl?.injector.get(IfAuthenticatedDirective);
+  const store: MockStore = TestBed.inject(MockStore);
 
   return {
     fixture,
     testDebugEl,
-    ifAuthenticatedDirective
+    ifAuthenticatedDirective,
+    store
   };
 }

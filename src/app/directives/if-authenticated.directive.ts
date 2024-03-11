@@ -1,15 +1,18 @@
 import { ChangeDetectorRef, Directive, effect, inject, Signal, TemplateRef, ViewContainerRef } from '@angular/core';
-import { AuthService } from '@services/auth.service';
+import { Store } from '@ngrx/store';
+import { loginFeature } from '@store/features/login-page.feature';
 
 @Directive({
   selector: '[appIfAuthenticated]',
   standalone: true
 })
 export class IfAuthenticatedDirective {
-  private isAuth: Signal<boolean> = inject(AuthService).isAuthenticated();
+  private store: Store = inject(Store);
   private viewContainerRef: ViewContainerRef = inject(ViewContainerRef);
   private templateRef: TemplateRef<unknown> = inject(TemplateRef);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+  private isAuth: Signal<boolean> = this.store.selectSignal(loginFeature.selectIsAuth);
 
   constructor() {
     effect(() => {

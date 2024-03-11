@@ -1,21 +1,19 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { Router } from '@angular/router';
-import { coursesServerUrl, routePath } from '@data/constants';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Login } from '@models/login.model';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
+
+import { CourseService } from '@services/course.service';
+import { Login } from '@models/login.model';
 import { UserToken } from '@models/user-token.model';
 import { User } from '@models/user.model';
-import { CourseService } from '@services/course.service';
+import { coursesServerUrl } from '@data/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly tokenKey = 'token';
-  private readonly isAuth: WritableSignal<boolean> = signal<boolean>(false);
 
-  private router: Router = inject(Router);
   private http: HttpClient = inject(HttpClient);
   private courseService: CourseService = inject(CourseService);
 
@@ -23,37 +21,22 @@ export class AuthService {
     return this.http.post<UserToken>(coursesServerUrl.login, user).pipe(
       tap((token: UserToken) => {
         localStorage.setItem(this.tokenKey, token.token);
-        this.isAuth.set(true);
       })
     );
   }
 
-  logout(isNavigateToLoginPage = true): void {
+  logout(): void {
     localStorage.removeItem(this.tokenKey);
-
-    this.isAuth.set(false);
-
-    if (isNavigateToLoginPage) {
-      this.courseService.resetInitialLoadingStatus();
-      this.router.navigate([routePath.login]);
-    }
+    this.courseService.resetInitialData();
   }
 
-  isAuthenticated(isNavigateToLoginPage = true): Signal<boolean> {
-    const token: string | null = localStorage.getItem(this.tokenKey);
-
-    if (token === null) {
-      this.logout(isNavigateToLoginPage);
-    } else {
-      this.isAuth.set(true);
-    }
-
-    return this.isAuth.asReadonly();
+  isAuthenticated(): boolean {
+    return Boolean(this.token);
   }
 
   getUserInfo(): Observable<string> {
     const token: UserToken = {
-      token: localStorage.getItem(this.tokenKey) || ''
+      token: this.token || ''
     };
 
     return this.http.post<User>(coursesServerUrl.userinfo, token).pipe(

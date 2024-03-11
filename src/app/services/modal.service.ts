@@ -7,8 +7,6 @@ import {
   Injectable,
   Type,
 } from '@angular/core';
-import { ModalComponent } from '@component/shared/modal/modal.component';
-import { ConfirmWindow } from '@models/confirm-window.model';
 import {
   first,
   Observable,
@@ -16,7 +14,10 @@ import {
   switchMap,
   tap
 } from 'rxjs';
+
+import { ModalComponent } from '@component/shared/modal/modal.component';
 import { LoaderComponent } from '@component/shared/loader/loader.component';
+import { ConfirmWindow } from '@models/confirm-window.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,15 @@ import { LoaderComponent } from '@component/shared/loader/loader.component';
 export class ModalService {
   private applicationRef: ApplicationRef = inject(ApplicationRef);
   private injector: EnvironmentInjector = inject(EnvironmentInjector);
+
   private confirmQueue: ConfirmWindow[] = [];
   private isConfirmWindowOpened = false;
   private loaderComponentRef: ComponentRef<LoaderComponent> | null = null;
+  private loaderQueue = 0;
 
   showLoader(): void {
+    this.loaderQueue++;
+
     if (this.loaderComponentRef) {
       return;
     }
@@ -41,8 +46,16 @@ export class ModalService {
       return;
     }
 
-    this.loaderComponentRef.destroy();
-    this.loaderComponentRef = null;
+    this.loaderQueue--;
+
+    if (this.loaderQueue < 0) {
+      this.loaderQueue = 0;
+    }
+
+    if (this.loaderQueue === 0) {
+      this.loaderComponentRef.destroy();
+      this.loaderComponentRef = null;
+    }
   }
 
   showConfirm(title = '', text = ''): Observable<boolean> {

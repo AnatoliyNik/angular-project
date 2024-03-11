@@ -16,7 +16,7 @@
       <p class="error-message">{{ error() }}</p>
     } @else {
 
-      @for (course of coursesToDisplay(); track course.id) {
+      @for (course of courses(); track course.id) {
         <app-course
           [course]="course"
           [deleteError]="deleteError()"

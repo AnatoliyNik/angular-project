@@ -1,16 +1,33 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
 import { AppComponent } from './app.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { loginPageActions } from '@store/actions/login-page.actions';
 
 describe('AppComponent', () => {
-  it('should create the app', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let app: AppComponent;
+  let store: MockStore;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    })
+      providers: [provideMockStore()]
+    });
 
-    const fixture = TestBed.createComponent(AppComponent);
+    store = TestBed.inject(MockStore);
+    spyOn(store, 'dispatch');
 
-    const app = fixture.componentInstance;
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+
+    fixture.detectChanges();
+  });
+
+  it('should create the app', () => {
     expect(app).toBeTruthy();
+  });
+
+  it('should init app', () => {
+    expect(store.dispatch).toHaveBeenCalledWith(loginPageActions.init());
   });
 });
