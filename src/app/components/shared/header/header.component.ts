@@ -1,17 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
-  signal,
   Signal,
-  untracked,
-  WritableSignal
 } from '@angular/core';
 import { LogoComponent } from './logo/logo.component';
 import { IfAuthenticatedDirective } from '@directives/if-authenticated.directive';
-import { AuthService } from '@services/auth.service';
-import { first } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loginFeature } from '@store/features/login-page.feature';
+import { loginPageActions } from '@store/actions/login-page.actions';
 
 @Component({
   selector: 'app-header',
@@ -26,27 +23,12 @@ import { first } from 'rxjs';
 })
 export class HeaderComponent {
   readonly logoutButtonText = 'Log out';
-  userName: WritableSignal<string> = signal<string>('');
 
-  private authService: AuthService = inject(AuthService);
+  private store: Store = inject(Store)
 
-  private isAuth: Signal<boolean> = this.authService.isAuthenticated();
-
-  constructor() {
-    effect(() => {
-      if (this.isAuth()) {
-        this.authService.getUserInfo().pipe(
-          first()
-        ).subscribe((userName: string) => {
-          untracked(() => {
-            this.userName.set(userName);
-          });
-        });
-      }
-    });
-  }
+  userName: Signal<string> = this.store.selectSignal(loginFeature.selectUserName);
 
   onLogout(): void {
-    this.authService.logout();
+    this.store.dispatch(loginPageActions.logout())
   }
 }

@@ -1,11 +1,12 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject, Signal } from '@angular/core';
-import { AuthService } from '@services/auth.service';
+import { Store } from '@ngrx/store';
+import { loginFeature } from '@store/features/login-page.feature';
 import { routePath } from '@data/constants';
 
 export const loginPageGuard: CanActivateFn = (): boolean => {
-  const authService: AuthService = inject(AuthService);
-  const isAuth: Signal<boolean> = authService.isAuthenticated(false);
+  const store: Store = inject(Store);
+  const isAuth: Signal<boolean> = store.selectSignal(loginFeature.selectIsAuth);
   const router: Router = inject(Router);
 
   if (!isAuth()) {

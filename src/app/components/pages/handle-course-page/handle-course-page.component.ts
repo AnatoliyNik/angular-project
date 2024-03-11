@@ -4,21 +4,22 @@ import {
   DestroyRef,
   inject,
   OnInit,
-  signal,
-  WritableSignal
+  Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 
 import { DurationComponent } from '@component/pages/handle-course-page/components/duration/duration.component';
 import { DateComponent } from '@component/pages/handle-course-page/components/date/date.component';
 import { AuthorsComponent } from '@component/pages/handle-course-page/components/authors/authors.component';
-import { CourseService } from '@services/course.service';
 import { HandleCourseForm } from '@models/handle-course-form.model';
 import { Course } from '@models/course.model';
 import { editCourseRouteResolverKey, routePath } from '@data/constants';
+
+import { Store } from '@ngrx/store';
+import { coursesFeature } from '@store/features/courses-page.feature';
+import { coursesPageActions } from '@store/actions/courses-page.actions';
 
 @Component({
   selector: 'app-handle-course-page',
@@ -54,12 +55,12 @@ export class HandleCoursePageComponent implements OnInit {
   handleCourseForm!: FormGroup<HandleCourseForm>;
   course?: Course;
 
-  error: WritableSignal<string> = signal<string>('');
-
-  private courseService: CourseService = inject(CourseService);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
   private destroyRef: DestroyRef = inject(DestroyRef);
+  private store: Store = inject(Store);
+
+  error: Signal<string> = this.store.selectSignal(coursesFeature.selectHandle);
 
   ngOnInit(): void {
     this.handleCourseForm = new FormGroup<HandleCourseForm>({
@@ -88,7 +89,7 @@ export class HandleCoursePageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.handleCourseForm.invalid) {
+    if (this.handleCourseForm.invalid || this.handleCourseForm.pending) {
       return;
     }
 
@@ -100,16 +101,7 @@ export class HandleCoursePageComponent implements OnInit {
     } as Course;
 
     if (this.course) {
-      this.courseService.update(this.course.id, course).pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe({
-        next: () => {
-          this.router.navigate([routePath.courses]);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.error.set(error.message);
-        }
-      });
+      this.store.dispatch(coursesPageActions.updateCourse({id: this.course.id, course}));
 
       return;
     }
@@ -120,16 +112,7 @@ export class HandleCoursePageComponent implements OnInit {
       topRated: false
     };
 
-    this.courseService.create(newCourse).pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: () => {
-        this.router.navigate([routePath.courses]);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.error.set(error.message);
-      }
-    });
+    this.store.dispatch(coursesPageActions.createCourse({newCourse}));
   }
 
   onCancel(): void {

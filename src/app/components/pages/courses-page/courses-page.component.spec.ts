@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChangeDetectorRef, Component, DebugElement, Input, signal } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CoursesPageComponent } from './courses-page.component';
 import { CourseComponent } from './components/course/course.component';
@@ -12,6 +12,9 @@ import { CourseDeletionError } from '@models/course-deletion-error.model';
 
 import { courses } from '@data/mock-data';
 
+import { coursesFeature } from '@store/features/courses-page.feature';
+import { coursesInitialState } from '@store/states/courses.state';
+
 describe('CoursesPageComponent', () => {
   it('should create', () => {
     const {fixture} = setup();
@@ -20,10 +23,10 @@ describe('CoursesPageComponent', () => {
   });
 
   it('should properly render courses', () => {
-    const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
+    const {fixture, coursePageDebugEl, store} = setup();
 
-    coursesPageComponent.coursesToDisplay.set([...courses]);
-    changeDetectorRef.markForCheck();
+    store.overrideSelector(coursesFeature.selectCourses, [...courses]);
+    store.refreshState();
 
     fixture.detectChanges();
 
@@ -33,10 +36,10 @@ describe('CoursesPageComponent', () => {
   });
 
   it('should display message if there are no courses in uppercase', () => {
-    const {fixture, coursePageDebugEl, coursesPageComponent, changeDetectorRef} = setup();
+    const {fixture, coursePageDebugEl, coursesPageComponent, store} = setup();
 
-    coursesPageComponent.canLoadMore = signal(false)
-    changeDetectorRef.markForCheck();
+    store.overrideSelector(coursesFeature.selectCanLoadMore, false);
+    store.refreshState();
 
     fixture.detectChanges();
 
@@ -65,7 +68,7 @@ function setup() {
     @Input()
     course!: Course;
     @Input()
-    deleteError!: CourseDeletionError
+    deleteError!: CourseDeletionError;
   }
 
   @Component({
@@ -93,13 +96,17 @@ function setup() {
   });
 
   TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule]
-  })
+    providers: [provideMockStore({
+      initialState: {
+        [coursesFeature.name]: {...coursesInitialState}
+      },
+    })]
+  });
 
   const fixture: ComponentFixture<CoursesPageComponent> = TestBed.createComponent(CoursesPageComponent);
   const coursePageDebugEl: DebugElement = fixture.debugElement;
   const coursesPageComponent: CoursesPageComponent = fixture.componentInstance;
-  const changeDetectorRef: ChangeDetectorRef = coursePageDebugEl.injector.get(ChangeDetectorRef);
+  const store: MockStore = TestBed.inject(MockStore);
 
   fixture.detectChanges();
 
@@ -107,6 +114,6 @@ function setup() {
     fixture,
     coursePageDebugEl,
     coursesPageComponent,
-    changeDetectorRef
+    store
   };
 }

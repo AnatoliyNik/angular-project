@@ -1,6 +1,7 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+
 import { Course } from '@models/course.model';
 import { CourseFromServer } from '@models/course-from-server.model';
 import { coursesServerUrl } from '@data/constants';
@@ -9,38 +10,22 @@ import { coursesServerUrl } from '@data/constants';
   providedIn: 'root'
 })
 export class CourseService {
-  private _courses$: BehaviorSubject<Course[]> = new BehaviorSubject<Course[]>([]);
   private start = 0;
   private count = 3;
   private textFragment = '';
   private sort: keyof CourseFromServer = 'date';
-  private isInitialLoading = true;
-
-  private _canLoadMore: WritableSignal<boolean> = signal<boolean>(true);
-
-  get canLoadMore(): Signal<boolean> {
-    return this._canLoadMore.asReadonly();
-  }
-
-  get courses$(): Observable<Course[]> {
-    if (this.isInitialLoading) {
-      this.isInitialLoading = false;
-
-      return this.getAll().pipe(
-        switchMap((courses: Course[]) => {
-          this._courses$.next(courses);
-          return this._courses$.asObservable();
-        })
-      );
-    }
-
-    return this._courses$.asObservable();
-  }
 
   private http: HttpClient = inject(HttpClient);
 
-  resetInitialLoadingStatus(): void {
-    this.isInitialLoading = true;
+  private _canLoadMore: WritableSignal<boolean> = signal<boolean>(true);
+
+  get canLoadMore(): boolean {
+    return this._canLoadMore();
+  }
+
+  resetInitialData(): void {
+    this.start = 0;
+    this.textFragment = '';
   }
 
   getAll(): Observable<Course[]> {
@@ -70,11 +55,7 @@ export class CourseService {
     const newCourse: CourseFromServer = this.fromCourse(course);
 
     return this.http.post<CourseFromServer>(coursesServerUrl.courses, newCourse).pipe(
-      map((courseFromServer: CourseFromServer) => this.toCourse(courseFromServer)),
-      tap((course: Course) => {
-        const courses: Course[] = [course, ...this._courses$.value];
-        this._courses$.next(courses);
-      })
+      map((courseFromServer: CourseFromServer) => this.toCourse(courseFromServer))
     );
   }
 
@@ -82,26 +63,13 @@ export class CourseService {
     const updatedCourse: CourseFromServer = this.fromCourse(newCourse as Course);
 
     return this.http.patch<CourseFromServer>(`${coursesServerUrl.courses}/${id}`, updatedCourse).pipe(
-      map((courseFromServer: CourseFromServer) => this.toCourse(courseFromServer)),
-      tap((course: Course) => {
-        const courses: Course[] = this._courses$.value;
-        const index: number = courses.findIndex(current => current.id === course.id);
-
-        if (index !== -1) {
-          courses[index] = course;
-        }
-
-        this._courses$.next([...courses]);
-      })
+      map((courseFromServer: CourseFromServer) => this.toCourse(courseFromServer))
     );
   }
 
   remove(id: string): Observable<void> {
     return this.http.delete<void>(`${coursesServerUrl.courses}/${id}`).pipe(
-      tap(() => {
-        const courses: Course[] = this._courses$.value.filter(course => course.id !== id);
-        this._courses$.next(courses);
-      })
+      tap(() => this.start--)
     );
   }
 
@@ -109,10 +77,6 @@ export class CourseService {
     this.start += this.count;
 
     return this.getAll().pipe(
-      tap((newCourses: Course[]) => {
-        const courses: Course[] = [...this._courses$.value, ...newCourses];
-        this._courses$.next(courses);
-      }),
       catchError((err) => {
         this.start -= this.count;
         return throwError(() => err);
@@ -126,13 +90,9 @@ export class CourseService {
     this._canLoadMore.set(true);
 
     return this.getAll().pipe(
-      tap((courses: Course[]) => {
-        this._courses$.next([...courses]);
-      }),
       catchError((err) => {
         this.textFragment = '';
-        this._courses$.error(err);
-        return EMPTY;
+        return throwError(() => err);
       })
     );
   }

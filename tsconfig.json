@@ -40,6 +40,7 @@
       "@strategies/*": ["app/strategies/*"],
       "@interceptors/*": ["app/interceptors/*"],
       "@environments/*": ["environments/*"],
+      "@store/*": ["app/store/*"],
     }
   },
   "angularCompilerOptions": {

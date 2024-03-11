@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Signal, signal } from '@angular/core';
+import { DebugElement } from '@angular/core';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { HeaderComponent } from './header.component';
-import { AuthService } from '@services/auth.service';
-import { Observable, of } from 'rxjs';
+import { loginFeature } from '@store/features/login-page.feature';
+import { loginInitialState } from '@store/states/login.state';
+import { loginPageActions } from '@store/actions/login-page.actions';
 
 describe('HeaderComponent', () => {
   it('should create', () => {
@@ -15,59 +16,51 @@ describe('HeaderComponent', () => {
   });
 
   it('should display user name if he pass authentication', () => {
-    const {headerComponent, fixture, authServiceStub} = setup();
+    const {headerComponent, fixture, store} = setup();
+    const mockName = 'mock name';
 
-    expect(headerComponent.userName()).toBe('');
-
-    authServiceStub.isAuth.set(true);
+    store.overrideSelector(loginFeature.selectUserName, mockName);
+    store.refreshState();
     fixture.detectChanges();
 
-    expect(headerComponent.userName()).toBe(authServiceStub.user);
+    expect(headerComponent.userName()).toBe(mockName);
   });
 
   it('should logout when click logout button', () => {
-    const {fixture, authServiceStub} = setup(true);
-    const logoutSpy = spyOn(authServiceStub, 'logout');
+    const {fixture, store} = setup();
     const logoutBtn: DebugElement | null = fixture.debugElement.query(By.css('button'));
 
     expect(logoutBtn).not.toBeNull();
 
+    spyOn(store, 'dispatch');
     logoutBtn.triggerEventHandler('click');
 
-    expect(logoutSpy).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(loginPageActions.logout());
   });
 });
 
-function setup(isAuth = false) {
-  const authServiceStub = {
-    isAuth: signal<boolean>(isAuth),
-    user: 'mock user',
-
-    isAuthenticated(): Signal<boolean> {
-      return this.isAuth.asReadonly();
-    },
-
-    getUserInfo(): Observable<string> {
-      return of(this.user);
-    },
-
-    logout(): void {
-    }
-  };
-
+function setup() {
   TestBed.configureTestingModule({
-    imports: [HeaderComponent, HttpClientTestingModule],
-    providers: [{provide: AuthService, useValue: authServiceStub}]
+    imports: [HeaderComponent],
+    providers: [provideMockStore({
+      initialState: {
+        [loginFeature.name]: {
+          ...loginInitialState,
+          isAuth: true
+        }
+      }
+    })]
   });
 
   const fixture: ComponentFixture<HeaderComponent> = TestBed.createComponent(HeaderComponent);
   const headerComponent: HeaderComponent = fixture.componentInstance;
+  const store: MockStore = TestBed.inject(MockStore);
 
   fixture.detectChanges();
 
   return {
     fixture,
     headerComponent,
-    authServiceStub
+    store
   };
 }

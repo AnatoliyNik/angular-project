@@ -7,6 +7,11 @@ import { courseResolver } from '@resolvers/course.resolver';
 import { courseGuard } from '@guards/course.guard';
 import { loginPageGuard } from '@guards/login-page.guard';
 
+import { provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { coursesFeature } from '@store/features/courses-page.feature';
+import * as coursesEffects from '@store/effects/courses-page.effects';
+
 export const routes: Routes = [
   {path: '', redirectTo: routePath.courses, pathMatch: 'full'},
   {
@@ -17,6 +22,10 @@ export const routes: Routes = [
   {
     path: '',
     canActivateChild: [courseGuard],
+    providers: [
+      provideState(coursesFeature),
+      provideEffects(coursesEffects)
+    ],
     children: [
       {
         path: routePath.courses,
