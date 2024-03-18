@@ -5,7 +5,7 @@ import {
   OnInit,
   Signal,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { LoginForm } from '@models/login-form.model';
 import { Login } from '@models/login.model';
@@ -13,12 +13,14 @@ import { Login } from '@models/login.model';
 import { Store } from '@ngrx/store';
 import { loginPageActions } from '@store/actions/login-page.actions';
 import { loginFeature } from '@store/features/login-page.feature';
+import { ShowErrorDirective } from '@directives/show-error.directive';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ShowErrorDirective
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
@@ -42,8 +44,14 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup<LoginForm>({
-      name: new FormControl<string>('', {nonNullable: true}),
-      password: new FormControl<string>('', {nonNullable: true})
+      name: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      password: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
     });
   }
 

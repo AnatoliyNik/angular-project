@@ -1,6 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Course } from '@models/course.model';
 import { CourseDeletionError } from '@models/course-deletion-error.model';
+import { Author } from '@models/author.model';
 
 export const coursesPageActions = createActionGroup({
   source: 'Courses Page',
@@ -24,5 +25,8 @@ export const coursesPageActions = createActionGroup({
     'Create Course': props<{ newCourse: Course }>(),
     'Create Course Success': props<{ course: Course }>(),
     'Create Course Error': props<{ error: string }>(),
+    'Get Authors': emptyProps(),
+    'Get Authors Success': props<{ authors: Author[] }>(),
+    'Get Authors Error': props<{ error: string }>(),
   }
 });

@@ -5,6 +5,7 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { Course } from '@models/course.model';
 import { CourseFromServer } from '@models/course-from-server.model';
 import { coursesServerUrl } from '@data/constants';
+import { Author } from '@models/author.model';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,10 @@ export class CourseService {
     );
   }
 
+  getAuthors(): Observable<Author[]> {
+    return this.http.get<Author[]>(coursesServerUrl.authors);
+  }
+
   private toCourse(courseFromServer: CourseFromServer): Course
   private toCourse(courseFromServer: CourseFromServer[]): Course[]
   private toCourse(courseFromServer: CourseFromServer | CourseFromServer[]): Course | Course[] {
@@ -110,7 +115,8 @@ export class CourseService {
       creationDate: new Date(courseFromServer.date),
       description: courseFromServer.description,
       topRated: courseFromServer.isTopRated,
-      title: courseFromServer.name
+      title: courseFromServer.name,
+      authors: courseFromServer.authors
     };
   }
 
@@ -122,7 +128,8 @@ export class CourseService {
       isTopRated: course.topRated,
       description: course.description,
       date: course.creationDate.toString(),
-      length: course.duration
+      length: course.duration,
+      authors: course.authors
     };
   }
 }

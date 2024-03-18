@@ -8,8 +8,9 @@ import { ModalService } from '@services/modal.service';
 import { Course } from '@models/course.model';
 import { routePath } from '@data/constants';
 
-import { coursesPageActions } from '@store/actions/courses-page.actions';
 import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
+import { coursesPageActions } from '@store/actions/courses-page.actions';
+import { loginPageActions } from '@store/actions/login-page.actions';
 
 export const getCourses: FunctionalEffect = createEffect((
     actions$: Actions = inject(Actions),
@@ -133,6 +134,32 @@ export const create: FunctionalEffect = createEffect((
           return coursesPageActions.createCourseSuccess({course});
         }),
         catchError((error: HttpErrorResponse) => of(coursesPageActions.createCourseError({error: error.message})))
+      ))
+    );
+  },
+  {functional: true}
+);
+
+export const init: FunctionalEffect = createEffect((
+    actions$: Actions = inject(Actions)
+  ) => {
+    return actions$.pipe(
+      ofType(loginPageActions.getUserInfoSuccess),
+      map(() => coursesPageActions.getAuthors())
+    );
+  },
+  {functional: true}
+);
+
+export const getAuthors: FunctionalEffect = createEffect((
+    actions$: Actions = inject(Actions),
+    courseService: CourseService = inject(CourseService)
+  ) => {
+    return actions$.pipe(
+      ofType(coursesPageActions.getAuthors),
+      exhaustMap(() => courseService.getAuthors().pipe(
+        map((authors) => coursesPageActions.getAuthorsSuccess({authors})),
+        catchError((error: HttpErrorResponse) => of(coursesPageActions.getAuthorsError({error: error.message})))
       ))
     );
   },

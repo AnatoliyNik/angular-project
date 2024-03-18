@@ -1,5 +1,6 @@
 @use "variables";
 @use "keyframes";
+@use "mixins";
 @use "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
 
@@ -101,4 +102,8 @@ body {
 
 .error-message {
   color: variables.$warnColor;
+}
+
+.form-control.ng-invalid.ng-touched {
+  @include mixins.errorBorder;
 }

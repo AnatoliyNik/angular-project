@@ -1,0 +1,44 @@
+@use "variables";
+@use "mixins";
+
+.wrapper {
+  position: relative;
+}
+
+.fake-input {
+  position: absolute;
+  top: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: variables.$lightColor;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.item {
+  border: 1px solid variables.$borderColor;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 3px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #effbff;
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+  color: variables.$warnColor
+}
+
+@include mixins.customFormControlErrorBorder;

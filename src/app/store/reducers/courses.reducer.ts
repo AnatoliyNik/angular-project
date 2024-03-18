@@ -7,7 +7,10 @@ import { loginPageActions } from '@store/actions/login-page.actions';
 
 export const coursesReducer: ActionReducer<CoursesState> = createReducer(
   coursesInitialState,
-  on(coursesPageActions.getCourses, (): CoursesState => ({...coursesInitialState})),
+  on(coursesPageActions.getCourses, (state): CoursesState => ({
+    ...coursesInitialState,
+    authors: state.authors
+  })),
   on(coursesPageActions.getCoursesSuccess, (state, {courses, canLoadMore}): CoursesState => ({
     ...state,
     courses,
@@ -86,5 +89,20 @@ export const coursesReducer: ActionReducer<CoursesState> = createReducer(
     ...state,
     errors: {...state.errors, handle: error}
   })),
-  on(loginPageActions.logout, (): CoursesState => ({...coursesInitialState}))
+  on(coursesPageActions.getAuthors, (state): CoursesState => ({
+    ...state,
+    errors: {...state.errors, getAuthors: ''}
+  })),
+  on(coursesPageActions.getAuthorsSuccess, (state, {authors}): CoursesState => ({
+    ...state,
+    authors
+  })),
+  on(coursesPageActions.getAuthorsError, (state, {error}): CoursesState => ({
+    ...state,
+    errors: {
+      ...state.errors,
+      getAuthors: error
+    }
+  })),
+  on(loginPageActions.logout, (): CoursesState => ({...coursesInitialState})),
 );

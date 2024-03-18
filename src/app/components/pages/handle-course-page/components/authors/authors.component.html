@@ -1,6 +1,52 @@
-<input
-  class="form-control"
-  type="text"
-  [placeholder]="placeholder"
-  id="authors"
+<div class="wrapper">
+  <input
+    class="form-control"
+    type="text"
+    [placeholder]="placeholder"
+    id="authors"
+    [disabled]="isDisabled"
+    [matAutocomplete]="autocomplete"
+    (input)="onInput()"
+    (blur)="onBlur()"
+    #input
+  >
+
+  @if (!!courseAuthors().length && isDisplayAuthors) {
+    <div
+      tabindex="0"
+      class="fake-input form-control"
+      (click)="hideAuthor()"
+      (keyup.space)="hideAuthor()"
+    >
+      @for (author of courseAuthors(); track author.id) {
+        <div
+          class="item"
+          @appearance
+          (mousedown)="$event.button === 1 ? deleteAuthor($event, author.id) : null"
+        >
+          <span>{{ author.name }}</span>
+
+          <button
+            class="btn btn-link"
+            type="button"
+            (click)="deleteAuthor($event, author.id)"
+          >
+            <svg>
+              <use href="assets/icons.svg#close"></use>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<mat-autocomplete
+  #autocomplete
+  (optionSelected)="onSelectAuthor($event)"
 >
+  @for (author of filteredAuthors(); track author.id) {
+    <mat-option [value]="author">{{ author.name }}</mat-option>
+  }
+</mat-autocomplete>
+

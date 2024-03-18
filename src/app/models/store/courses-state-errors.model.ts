@@ -5,4 +5,5 @@ export interface CourseStateErrors {
   handle: string,
   loadMore: string
   remove: CourseDeletionError | null,
+  getAuthors: string
 }

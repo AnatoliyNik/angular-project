@@ -1,23 +1,44 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 import { NotFoundPageComponent } from './not-found-page.component';
+import { routePath } from '@data/constants';
 
 describe('NotFoundPageComponent', () => {
-  let component: NotFoundPageComponent;
-  let fixture: ComponentFixture<NotFoundPageComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NotFoundPageComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(NotFoundPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
   it('should create', () => {
+    const {component} = setup();
+
     expect(component).toBeTruthy();
   });
+
+  it('should had link to courses page', () => {
+    const {fixture, router} = setup();
+    const link: DebugElement | null = fixture.debugElement.query(By.css('.btn'));
+
+    expect(link).toBeTruthy();
+
+    spyOn(router, 'navigate');
+    link.triggerEventHandler('click');
+
+    expect(router.navigate).toHaveBeenCalledWith([routePath.courses]);
+  });
 });
+
+function setup() {
+  TestBed.configureTestingModule({
+    imports: [RouterTestingModule]
+  });
+  const fixture: ComponentFixture<NotFoundPageComponent> = TestBed.createComponent(NotFoundPageComponent);
+  const component: NotFoundPageComponent = fixture.componentInstance;
+  const router: Router = TestBed.inject(Router);
+
+  fixture.detectChanges();
+  return {
+    fixture,
+    component,
+    router
+  };
+}
