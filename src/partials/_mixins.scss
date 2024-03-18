@@ -1,0 +1,13 @@
+@use "variables";
+
+@mixin errorBorder {
+  border: 1px solid variables.$warnColor;
+}
+
+@mixin customFormControlErrorBorder {
+  :host(.ng-invalid.ng-touched) {
+    .form-control {
+      @include errorBorder;
+    }
+  }
+}

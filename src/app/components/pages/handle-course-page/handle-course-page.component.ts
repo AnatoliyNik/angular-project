@@ -7,7 +7,7 @@ import {
   Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 
 import { DurationComponent } from '@component/pages/handle-course-page/components/duration/duration.component';
@@ -15,11 +15,13 @@ import { DateComponent } from '@component/pages/handle-course-page/components/da
 import { AuthorsComponent } from '@component/pages/handle-course-page/components/authors/authors.component';
 import { HandleCourseForm } from '@models/handle-course-form.model';
 import { Course } from '@models/course.model';
-import { editCourseRouteResolverKey, routePath } from '@data/constants';
+import { Author } from '@models/author.model';
+import { descriptionMaxLength, editCourseRouteResolverKey, routePath, titleMaxLength } from '@data/constants';
 
 import { Store } from '@ngrx/store';
 import { coursesFeature } from '@store/features/courses-page.feature';
 import { coursesPageActions } from '@store/actions/courses-page.actions';
+import { ShowErrorDirective } from '@directives/show-error.directive';
 
 @Component({
   selector: 'app-handle-course-page',
@@ -28,7 +30,8 @@ import { coursesPageActions } from '@store/actions/courses-page.actions';
     DurationComponent,
     DateComponent,
     AuthorsComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ShowErrorDirective
   ],
   templateUrl: './handle-course-page.component.html',
   styleUrl: './handle-course-page.component.scss',
@@ -64,10 +67,23 @@ export class HandleCoursePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleCourseForm = new FormGroup<HandleCourseForm>({
-      title: new FormControl<string>('', {nonNullable: true}),
-      description: new FormControl<string>('', {nonNullable: true}),
+      title: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(titleMaxLength)]
+      }),
+      description: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(descriptionMaxLength)]
+      }),
       creationDate: new FormControl<Date | null>(null),
-      duration: new FormControl<number>(0, {nonNullable: true})
+      duration: new FormControl<number>(0, {
+        nonNullable: true,
+        validators: [Validators.min(1)]
+      }),
+      authors: new FormControl<Author[]>([], {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
     });
 
     this.route.data.pipe(
@@ -82,7 +98,8 @@ export class HandleCoursePageComponent implements OnInit {
           title: this.course.title,
           description: this.course.description,
           duration: this.course.duration,
-          creationDate: this.course.creationDate
+          creationDate: this.course.creationDate,
+          authors: this.course.authors
         });
       }
     });
@@ -98,6 +115,7 @@ export class HandleCoursePageComponent implements OnInit {
       description: this.handleCourseForm.controls.description.value,
       duration: this.handleCourseForm.controls.duration.value,
       creationDate: this.handleCourseForm.value.creationDate || new Date(),
+      authors: this.handleCourseForm.value.authors
     } as Course;
 
     if (this.course) {

@@ -29,5 +29,9 @@ const baseUrl: string = environment.coursesServerUrl;
 export const coursesServerUrl = {
   login: `${baseUrl}auth/login`,
   userinfo: `${baseUrl}auth/userInfo`,
-  courses: `${baseUrl}courses`
+  courses: `${baseUrl}courses`,
+  authors: `${baseUrl}authors`,
 };
+
+export const titleMaxLength = 50;
+export const descriptionMaxLength = 500;

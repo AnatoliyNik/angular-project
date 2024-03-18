@@ -1,3 +1,5 @@
+import { Author } from '@models/author.model';
+
 export interface Course {
   id: string;
   title: string;
@@ -5,4 +7,5 @@ export interface Course {
   duration: number;
   description: string;
   topRated: boolean;
+  authors: Author[]
 }

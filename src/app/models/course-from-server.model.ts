@@ -1,3 +1,5 @@
+import { Author } from '@models/author.model';
+
 export interface CourseFromServer {
   id: number;
   name: string;
@@ -5,4 +7,5 @@ export interface CourseFromServer {
   length: number;
   description: string;
   isTopRated: boolean;
+  authors: Author[];
 }

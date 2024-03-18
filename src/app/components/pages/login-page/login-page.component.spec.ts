@@ -43,6 +43,9 @@ describe('LoginPageComponent', () => {
 
     expect(loginForm).not.toBeNull();
 
+    const formGroup: FormGroupDirective = loginForm.injector.get(FormGroupDirective);
+    (formGroup.form as FormGroup<LoginForm>).reset({name: 'test', password: 'test'});
+
     spyOn(store, 'dispatch');
     loginForm.triggerEventHandler('submit');
 

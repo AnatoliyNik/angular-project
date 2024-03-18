@@ -1,23 +1,42 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 
 import { DateComponent } from './date.component';
 
 describe('DateComponent', () => {
-  let component: DateComponent;
-  let fixture: ComponentFixture<DateComponent>;
+  it('should create', () => {
+    const {dateComponent} = setup();
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DateComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(DateComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(dateComponent).toBeTruthy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should open date picker if user clicks on calendar button', () => {
+    const {fixture} = setup();
+    const openCalendarButton: DebugElement | null = fixture.debugElement.query(By.css('.btn.calendar'));
+
+    expect(openCalendarButton).not.toBeNull();
+
+    openCalendarButton.triggerEventHandler('click');
+    const datePicker: DebugElement | null = fixture.debugElement.query(By.css('mat-calendar'));
+
+    expect(datePicker).toBeTruthy();
   });
 });
+
+function setup() {
+  TestBed.configureTestingModule({
+    imports: [NoopAnimationsModule]
+  });
+
+  const fixture: ComponentFixture<DateComponent> = TestBed.createComponent(DateComponent);
+  const dateComponent: DateComponent = fixture.componentInstance;
+
+  fixture.detectChanges();
+
+  return {
+    fixture,
+    dateComponent
+  };
+}
