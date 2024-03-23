@@ -3,9 +3,10 @@ import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { NotFoundPageComponent } from './not-found-page.component';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 describe('NotFoundPageComponent', () => {
   it('should create', () => {
@@ -23,13 +24,13 @@ describe('NotFoundPageComponent', () => {
     spyOn(router, 'navigate');
     link.triggerEventHandler('click');
 
-    expect(router.navigate).toHaveBeenCalledWith([routePath.courses]);
+    expect(router.navigate).toHaveBeenCalledWith([RoutePath.Courses]);
   });
 });
 
 function setup() {
   TestBed.configureTestingModule({
-    imports: [RouterTestingModule]
+    imports: [RouterTestingModule, TranslateModule.forRoot()]
   });
   const fixture: ComponentFixture<NotFoundPageComponent> = TestBed.createComponent(NotFoundPageComponent);
   const component: NotFoundPageComponent = fixture.componentInstance;

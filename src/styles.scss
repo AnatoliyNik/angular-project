@@ -107,3 +107,13 @@ body {
 .form-control.ng-invalid.ng-touched {
   @include mixins.errorBorder;
 }
+
+mat-select.language-panel {
+  width: 40px;
+  color: white;
+  background: variables.$headerBackgroundColor;
+
+  .mat-mdc-select-arrow {
+    color: white;
+  }
+}

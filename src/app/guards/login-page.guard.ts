@@ -2,7 +2,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loginFeature } from '@store/features/login-page.feature';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 export const loginPageGuard: CanActivateFn = (): boolean => {
   const store: Store = inject(Store);
@@ -13,7 +13,7 @@ export const loginPageGuard: CanActivateFn = (): boolean => {
     return true;
   }
 
-  router.navigate([routePath.courses]);
+  router.navigate([RoutePath.Courses]);
 
   return false;
 };

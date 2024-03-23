@@ -10,20 +10,20 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { SearchQueryFilter } from '@helpers/searchQueryFilter';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-  readonly searchPlaceholderText = 'Type to search';
-
   search: FormControl<string> = new FormControl<string>('', {nonNullable: true});
   isShowClearButton = false;
 

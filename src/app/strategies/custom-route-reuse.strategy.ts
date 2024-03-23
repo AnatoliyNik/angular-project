@@ -4,7 +4,7 @@ import {
   Route,
   RouteReuseStrategy,
 } from '@angular/router';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   private handlerStore: Map<Route, DetachedRouteHandle> = new Map<Route, DetachedRouteHandle>();
@@ -13,8 +13,8 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   private future!: ActivatedRouteSnapshot;
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    const isGoToEditPage: boolean = this.future.routeConfig?.path === routePath.editCourse;
-    const isItCoursesPage: boolean = route.routeConfig?.path === routePath.courses;
+    const isGoToEditPage: boolean = this.future.routeConfig?.path === RoutePath.EditCourse;
+    const isItCoursesPage: boolean = route.routeConfig?.path === RoutePath.Courses;
 
     return isItCoursesPage && isGoToEditPage;
   }
@@ -26,8 +26,8 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    const isItEditPage: boolean = this.curr.routeConfig?.path === routePath.editCourse;
-    const isGoToCoursesPage: boolean = route.routeConfig?.path === routePath.courses;
+    const isItEditPage: boolean = this.curr.routeConfig?.path === RoutePath.EditCourse;
+    const isGoToCoursesPage: boolean = route.routeConfig?.path === RoutePath.Courses;
     const isThereRouteHandle: boolean = !!route.routeConfig && this.handlerStore.has(route.routeConfig);
 
     return isThereRouteHandle && isItEditPage && isGoToCoursesPage;

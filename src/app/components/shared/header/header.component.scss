@@ -1,5 +1,7 @@
 @use "variables";
 
+$gap: 30px;
+
 :host {
   position: sticky;
   top: 0;
@@ -9,6 +11,8 @@
 }
 
 .container,
+.auth-container,
+.language-container,
 .login,
 .login > li {
   display: flex;
@@ -22,7 +26,7 @@
 }
 
 .login {
-  gap: 30px;
+  gap: $gap;
 }
 
 .login > li {
@@ -32,4 +36,12 @@
 svg {
   width: 20px;
   height: 20px;
+}
+
+.auth-container {
+  gap: $gap;
+}
+
+.language-container {
+  gap: 5px;
 }

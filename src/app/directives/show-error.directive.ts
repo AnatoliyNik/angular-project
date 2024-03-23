@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   ComponentRef,
   DestroyRef,
   Directive,
@@ -11,6 +12,8 @@ import { NgControl } from '@angular/forms';
 import { combineLatestWith, first, startWith, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputErrorMessageComponent } from '@component/shared/input-error-message/input-error-message.component';
+import { Store } from '@ngrx/store';
+import { loginFeature } from '@store/features/login-page.feature';
 
 @Directive({
   selector: `
@@ -25,6 +28,7 @@ export class ShowErrorDirective implements OnInit {
   private control: NgControl | null = inject(NgControl, {self: true, optional: true});
   private destroyRef: DestroyRef = inject(DestroyRef);
   private viewContainerRef: ViewContainerRef = inject(ViewContainerRef);
+  private store: Store = inject(Store);
 
   private touched: Subject<void> = new Subject<void>();
   private component: ComponentRef<InputErrorMessageComponent> | null = null;
@@ -38,6 +42,14 @@ export class ShowErrorDirective implements OnInit {
     if (!this.control) {
       return;
     }
+
+    this.store.select(loginFeature.selectLanguage).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      if (this.component) {
+        this.component.injector.get(ChangeDetectorRef).markForCheck();
+      }
+    });
 
     this.control.statusChanges?.pipe(
       startWith(this.control.status),

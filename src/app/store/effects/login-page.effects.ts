@@ -4,12 +4,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, exhaustMap, first, map, of, switchMap, tap } from 'rxjs';
 
 import { AuthService } from '@services/auth.service';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { loginPageActions } from '@store/actions/login-page.actions';
 import { loginFeature } from '@store/features/login-page.feature';
+import { TranslateService } from '@ngx-translate/core';
 
 export const init: FunctionalEffect = createEffect((
     actions$: Actions = inject(Actions),
@@ -58,7 +59,7 @@ export const authSuccess: FunctionalEffect = createEffect((
     return actions$.pipe(
       ofType(loginPageActions.authSuccess),
       map(() => {
-        router.navigate([routePath.courses]);
+        router.navigate([RoutePath.Courses]);
 
         return loginPageActions.getUserInfo();
       })
@@ -93,6 +94,22 @@ export const getUserInfoError: FunctionalEffect = createEffect((
   {functional: true}
 );
 
+export const languageChange: FunctionalEffect = createEffect((
+    actions$: Actions = inject(Actions),
+    translateService: TranslateService = inject(TranslateService)
+  ) => {
+    return actions$.pipe(
+      ofType(loginPageActions.changeLanguage),
+      switchMap(({language}) =>
+        translateService.use(language).pipe(
+          map(() => loginPageActions.changeLanguageSuccess({language})),
+          catchError((error: HttpErrorResponse) => of(loginPageActions.changeLanguageError({error: error.message})))
+        )
+      )
+    );
+  },
+  {functional: true}
+);
 
 export const logout: FunctionalEffect = createEffect((
     actions$: Actions = inject(Actions),
@@ -103,7 +120,7 @@ export const logout: FunctionalEffect = createEffect((
       ofType(loginPageActions.logout),
       tap(() => {
         authService.logout();
-        router.navigate([routePath.login]);
+        router.navigate([RoutePath.Login]);
       })
     );
   },

@@ -7,6 +7,8 @@ import { FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { HandleCoursePageComponent } from './handle-course-page.component';
 import { DurationComponent } from './components/duration/duration.component';
@@ -18,7 +20,7 @@ import { coursesInitialState } from '@store/states/courses.state';
 import { coursesPageActions } from '@store/actions/courses-page.actions';
 
 import { Course } from '@models/course.model';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 import { courses } from '@data/mock-data';
 
 describe('HandleCoursePageComponent', () => {
@@ -89,14 +91,16 @@ describe('HandleCoursePageComponent', () => {
     spyOn(router, 'navigate');
     cancelBtn.triggerEventHandler('click');
 
-    expect(router.navigate).toHaveBeenCalledWith([routePath.courses]);
+    expect(router.navigate).toHaveBeenCalledWith([RoutePath.Courses]);
   });
 });
 
 function setup() {
   TestBed.configureTestingModule({
-    imports: [RouterTestingModule, NoopAnimationsModule],
-    providers: [provideMockStore({
+    imports: [RouterTestingModule, NoopAnimationsModule, TranslateModule.forRoot()],
+    providers: [
+      provideMomentDateAdapter(),
+      provideMockStore({
       initialState: {
         [coursesFeature.name]: {...coursesInitialState}
       }

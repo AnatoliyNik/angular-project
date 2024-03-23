@@ -1,15 +1,17 @@
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { LoginPageComponent } from './login-page.component';
+import { TranslateModule } from '@ngx-translate/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+
 import { loginFeature } from '@store/features/login-page.feature';
 import { loginInitialState } from '@store/states/login.state';
 import { loginPageActions } from '@store/actions/login-page.actions';
+
+import { LoginPageComponent } from './login-page.component';
 import { Login } from '@models/login.model';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { LoginForm } from '@models/login-form.model';
 
 describe('LoginPageComponent', () => {
@@ -19,7 +21,7 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginPageComponent, HttpClientTestingModule],
+      imports: [LoginPageComponent, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [provideMockStore({
         initialState: {
           [loginFeature.name]: {...loginInitialState}

@@ -17,5 +17,8 @@ export const loginReducer: ActionReducer<LoginState> = createReducer(
   on(loginPageActions.authSuccess, (state): LoginState => ({...state, isAuth: true})),
   on(loginPageActions.authError, (state, {error}): LoginState => ({...state, error})),
   on(loginPageActions.getUserInfoSuccess, (state, {userName}): LoginState => ({...state, userName})),
-  on(loginPageActions.logout, (): LoginState => ({...loginInitialState})),
+  on(loginPageActions.changeLanguage, (state): LoginState => ({...state, languageError: ''})),
+  on(loginPageActions.changeLanguageSuccess, (state, {language}): LoginState => ({...state, language})),
+  on(loginPageActions.changeLanguageError, (state, {error}): LoginState => ({...state, languageError: error})),
+  on(loginPageActions.logout, (state): LoginState => ({...loginInitialState, language: state.language})),
 );

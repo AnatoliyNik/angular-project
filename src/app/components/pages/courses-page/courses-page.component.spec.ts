@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { CoursesPageComponent } from './courses-page.component';
 import { CourseComponent } from './components/course/course.component';
@@ -35,8 +36,8 @@ describe('CoursesPageComponent', () => {
     expect(courseDebugEl?.length).toBe(courses.length);
   });
 
-  it('should display message if there are no courses in uppercase', () => {
-    const {fixture, coursePageDebugEl, coursesPageComponent, store} = setup();
+  it('should display message if there are no courses', () => {
+    const {fixture, coursePageDebugEl, store} = setup();
 
     store.overrideSelector(coursesFeature.selectCanLoadMore, false);
     store.refreshState();
@@ -45,7 +46,7 @@ describe('CoursesPageComponent', () => {
 
     const courseDebugEl: DebugElement | null = coursePageDebugEl.query(By.css('[data-testId="noCourseMessage"]'));
 
-    expect(courseDebugEl?.nativeElement.innerText).toContain(coursesPageComponent.noCoursesMessage.toUpperCase());
+    expect(courseDebugEl?.nativeElement.innerText).toBeTruthy();
   });
 
   it('should render search component', () => {
@@ -69,6 +70,8 @@ function setup() {
     course!: Course;
     @Input()
     deleteError!: CourseDeletionError;
+    @Input()
+    locale!: string;
   }
 
   @Component({
@@ -96,11 +99,14 @@ function setup() {
   });
 
   TestBed.configureTestingModule({
-    providers: [provideMockStore({
-      initialState: {
-        [coursesFeature.name]: {...coursesInitialState}
-      },
-    })]
+    imports: [TranslateModule.forRoot()],
+    providers: [
+      provideMockStore({
+        initialState: {
+          [coursesFeature.name]: {...coursesInitialState}
+        },
+      })
+    ]
   });
 
   const fixture: ComponentFixture<CoursesPageComponent> = TestBed.createComponent(CoursesPageComponent);

@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { CourseComponent } from './course.component';
 import { Course } from '@models/course.model';
 import { courses } from '@data/mock-data';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CourseComponent', () => {
 
@@ -50,7 +51,7 @@ function setup() {
   }
 
   TestBed.configureTestingModule({
-    imports: [NoopAnimationsModule]
+    imports: [NoopAnimationsModule, TranslateModule.forRoot()]
   })
   const fixture: ComponentFixture<HostCourseComponent> = TestBed.createComponent(HostCourseComponent);
   const courseDebugEl: DebugElement = fixture.debugElement.query(By.directive(CourseComponent));

@@ -16,12 +16,12 @@ export const matDateFormats: MatDateFormats = {
 export const editCourseRouteIdParam = 'id';
 export const editCourseRouteResolverKey = 'course';
 
-export enum routePath {
-  courses = 'courses',
-  login = 'login',
-  notFound = 'not-found',
-  newCourse = 'courses/new',
-  editCourse = `courses/:${editCourseRouteIdParam}`
+export enum RoutePath {
+  Courses = 'courses',
+  Login = 'login',
+  NotFound = 'not-found',
+  NewCourse = 'courses/new',
+  EditCourse = `courses/:${editCourseRouteIdParam}`
 }
 
 const baseUrl: string = environment.coursesServerUrl;
@@ -35,3 +35,8 @@ export const coursesServerUrl = {
 
 export const titleMaxLength = 50;
 export const descriptionMaxLength = 500;
+
+export enum Language {
+  En = 'en',
+  Ru = 'ru'
+}

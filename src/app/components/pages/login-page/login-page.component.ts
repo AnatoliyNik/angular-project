@@ -14,28 +14,21 @@ import { Store } from '@ngrx/store';
 import { loginPageActions } from '@store/actions/login-page.actions';
 import { loginFeature } from '@store/features/login-page.feature';
 import { ShowErrorDirective } from '@directives/show-error.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ShowErrorDirective
+    ShowErrorDirective,
+    TranslateModule
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent implements OnInit {
-  readonly title = 'Login';
-  readonly nameLabelText = 'Name';
-  readonly nameInputPlaceholderText = 'Enter name';
-  readonly passwordLabelText = 'Password';
-  readonly passwordInputPlaceholderText = 'Enter password';
-  readonly loginButtonText = 'Login';
-  readonly forgotButtonText = 'Forgot password?';
-  readonly required = '*required';
-
   private store: Store = inject(Store);
 
   error: Signal<string> = this.store.selectSignal(loginFeature.selectError);

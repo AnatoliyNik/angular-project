@@ -6,7 +6,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/ro
 import { loginPageGuard } from '@guards/login-page.guard';
 import { loginFeature } from '@store/features/login-page.feature';
 import { loginInitialState } from '@store/states/login.state';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 describe('loginPageGuard', () => {
   it('should allow access when user is not authenticated', () => {
@@ -18,7 +18,7 @@ describe('loginPageGuard', () => {
     const {result, router} = setup(true);
 
     expect(result).toBe(false);
-    expect(router.navigate).toHaveBeenCalledWith([routePath.courses]);
+    expect(router.navigate).toHaveBeenCalledWith([RoutePath.Courses]);
   });
 });
 
