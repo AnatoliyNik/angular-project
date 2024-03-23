@@ -5,7 +5,6 @@ import {
   OnInit,
   Signal,
 } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -14,12 +13,14 @@ import { CourseComponent } from './components/course/course.component';
 import { OrderByPipe } from '@pipes/order-by.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
 import { Course } from '@models/course.model';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 import { CourseDeletionError } from '@models/course-deletion-error.model';
 
 import { Store } from '@ngrx/store';
 import { coursesFeature } from '@store/features/courses-page.feature';
 import { coursesPageActions } from '@store/actions/courses-page.actions';
+import { TranslateModule } from '@ngx-translate/core';
+import { loginFeature } from '@store/features/login-page.feature';
 
 @Component({
   selector: 'app-courses-page',
@@ -28,7 +29,7 @@ import { coursesPageActions } from '@store/actions/courses-page.actions';
     BreadcrumbsComponent,
     SearchComponent,
     CourseComponent,
-    UpperCasePipe,
+    TranslateModule,
   ],
   providers: [OrderByPipe, FilterPipe],
   templateUrl: './courses-page.component.html',
@@ -36,10 +37,6 @@ import { coursesPageActions } from '@store/actions/courses-page.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoursesPageComponent implements OnInit {
-  readonly addCourseButtonText = 'Add course';
-  readonly loadMoreButtonText = 'Load more';
-  readonly noCoursesMessage = 'No data. Feel free to add new course';
-
   private store: Store = inject(Store);
   private router: Router = inject(Router);
 
@@ -48,6 +45,7 @@ export class CoursesPageComponent implements OnInit {
   error: Signal<string> = this.store.selectSignal(coursesFeature.selectGetAll);
   loadMoreError: Signal<string> = this.store.selectSignal(coursesFeature.selectLoadMore);
   deleteError: Signal<CourseDeletionError | null> = this.store.selectSignal(coursesFeature.selectRemove);
+  locale: Signal<string> = this.store.selectSignal(loginFeature.selectLanguage);
 
   ngOnInit(): void {
     this.store.dispatch(coursesPageActions.getCourses());
@@ -62,11 +60,11 @@ export class CoursesPageComponent implements OnInit {
   }
 
   onEditCourse(id: string): void {
-    this.router.navigate([routePath.courses, id]);
+    this.router.navigate([RoutePath.Courses, id]);
   }
 
   onAddCourse(): void {
-    this.router.navigate([routePath.newCourse]);
+    this.router.navigate([RoutePath.NewCourse]);
   }
 
   loadMore(): void {

@@ -24,7 +24,7 @@
       <svg>
         <use href="assets/icons.svg#calendar"></use>
       </svg>
-      <span>{{ course.creationDate | date: 'd MMM, YYYY' }}</span>
+      <span>{{ course.creationDate | date: 'd MMM, YYYY' : '' : locale }}</span>
     </li>
   </ul>
 
@@ -36,7 +36,7 @@
       <svg>
         <use href="assets/icons.svg#edit"></use>
       </svg>
-      <span>{{ editButtonText }}</span>
+      <span>{{ 'COURSE.BUTTONS.EDIT' | translate }}</span>
     </button>
 
     <button
@@ -47,7 +47,7 @@
       <svg>
         <use href="assets/icons.svg#delete"></use>
       </svg>
-      <span>{{ deleteButtonText }}</span>
+      <span>{{ 'COURSE.BUTTONS.DELETE' | translate }}</span>
     </button>
   </div>
 

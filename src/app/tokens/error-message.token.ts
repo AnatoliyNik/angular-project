@@ -1,14 +1,19 @@
-import { InjectionToken } from '@angular/core';
+import { inject, InjectionToken } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { FormControlErrorMessage } from '@models/form-control-error-message.model';
-
-const message: FormControlErrorMessage = {
-  required: () => 'This field is required',
-  min: () => 'This field is required',
-  maxlength: ({requiredLength, actualLength}) =>
-    `Maximum allowed - ${requiredLength} symbols. Now it is - ${actualLength} symbols`
-};
 
 export const ErrorMessage: InjectionToken<FormControlErrorMessage> = new InjectionToken<FormControlErrorMessage>('error messages', {
   providedIn: 'root',
-  factory: () => message
+  factory: (): FormControlErrorMessage => {
+    const translateService: TranslateService = inject(TranslateService);
+
+    return {
+      required: () => translateService.instant('ERRORS.REQUIRED'),
+      min: () => translateService.instant('ERRORS.MIN'),
+      maxlength: ({requiredLength, actualLength}) => translateService.instant('ERRORS.MAX_LENGTH', {
+        requiredLength,
+        actualLength
+      })
+    };
+  }
 });

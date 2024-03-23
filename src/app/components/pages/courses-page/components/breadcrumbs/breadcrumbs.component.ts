@@ -13,7 +13,7 @@ import {
 import { EMPTY, filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Course } from '@models/course.model';
-import { editCourseRouteResolverKey, routePath } from '@data/constants';
+import { editCourseRouteResolverKey, RoutePath } from '@data/constants';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -51,7 +51,7 @@ export class BreadcrumbsComponent implements OnInit {
 
         this.segments.set(segments);
 
-        if (primaryOutlet?.route?.routeConfig?.path === routePath.editCourse) {
+        if (primaryOutlet?.route?.routeConfig?.path === RoutePath.EditCourse) {
           return primaryOutlet.route.data;
         }
 
@@ -65,7 +65,7 @@ export class BreadcrumbsComponent implements OnInit {
       if (course) {
         segments.push(course.title);
       } else {
-        segments = routePath.newCourse.split('/');
+        segments = RoutePath.NewCourse.split('/');
       }
 
       this.segments.set(segments);

@@ -3,6 +3,8 @@ import { Component, DebugElement } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { InputErrorMessageComponent } from '@component/shared/input-error-message/input-error-message.component';
 
 describe('ShowErrorDirective', () => {
@@ -63,6 +65,11 @@ function setup() {
       validators: Validators.required
     });
   }
+
+  TestBed.configureTestingModule({
+    imports: [TranslateModule.forRoot()],
+    providers: [provideMockStore()]
+  });
 
   const fixture: ComponentFixture<HostTestComponent> = TestBed.createComponent(HostTestComponent);
   const testDebugEl: DebugElement = fixture.debugElement.query(By.css('#test'));

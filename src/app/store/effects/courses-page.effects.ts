@@ -6,11 +6,12 @@ import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { CourseService } from '@services/course.service';
 import { ModalService } from '@services/modal.service';
 import { Course } from '@models/course.model';
-import { routePath } from '@data/constants';
+import { RoutePath } from '@data/constants';
 
 import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { coursesPageActions } from '@store/actions/courses-page.actions';
 import { loginPageActions } from '@store/actions/login-page.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 export const getCourses: FunctionalEffect = createEffect((
     actions$: Actions = inject(Actions),
@@ -37,13 +38,14 @@ export const getCourses: FunctionalEffect = createEffect((
 export const remove: FunctionalEffect = createEffect((
     actions$: Actions = inject(Actions),
     courseService: CourseService = inject(CourseService),
-    modalService: ModalService = inject(ModalService)
+    modalService: ModalService = inject(ModalService),
+    translateService: TranslateService = inject(TranslateService)
   ) => {
     return actions$.pipe(
       ofType(coursesPageActions.deleteCourse),
       exhaustMap(({course}) => {
-        const modalTitle = 'Delete course?';
-        const modalText = `Are you sure you want to delete "${course.title}"?`;
+        const modalTitle = translateService.instant('MODAL.TITLE');
+        const modalText = translateService.instant('MODAL.MESSAGE', {title: course.title});
 
         return modalService.showConfirm(modalTitle, modalText).pipe(
           switchMap((result: boolean) => {
@@ -109,7 +111,7 @@ export const update: FunctionalEffect = createEffect((
       ofType(coursesPageActions.updateCourse),
       exhaustMap(({id, course}) => courseService.update(id, course).pipe(
         map((course) => {
-          router.navigate([routePath.courses]);
+          router.navigate([RoutePath.Courses]);
 
           return coursesPageActions.updateCourseSuccess({course});
         }),
@@ -129,7 +131,7 @@ export const create: FunctionalEffect = createEffect((
       ofType(coursesPageActions.createCourse),
       exhaustMap(({newCourse}) => courseService.create(newCourse).pipe(
         map((course) => {
-          router.navigate([routePath.courses]);
+          router.navigate([RoutePath.Courses]);
 
           return coursesPageActions.createCourseSuccess({course});
         }),

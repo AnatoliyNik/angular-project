@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { HeaderComponent } from './header.component';
 import { loginFeature } from '@store/features/login-page.feature';
@@ -41,7 +42,7 @@ describe('HeaderComponent', () => {
 
 function setup() {
   TestBed.configureTestingModule({
-    imports: [HeaderComponent],
+    imports: [HeaderComponent, TranslateModule.forRoot()],
     providers: [provideMockStore({
       initialState: {
         [loginFeature.name]: {

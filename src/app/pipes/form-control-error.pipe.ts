@@ -6,6 +6,7 @@ import { FormControlErrorMessage } from '@models/form-control-error-message.mode
 @Pipe({
   name: 'formControlError',
   standalone: true,
+  pure: false
 })
 export class FormControlErrorPipe implements PipeTransform {
   private errorMessagesMap: FormControlErrorMessage = inject(ErrorMessage);

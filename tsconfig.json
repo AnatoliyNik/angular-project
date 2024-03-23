@@ -41,6 +41,7 @@
       "@interceptors/*": ["app/interceptors/*"],
       "@environments/*": ["environments/*"],
       "@store/*": ["app/store/*"],
+      "@factory/*": ["app/factories/*"],
     }
   },
   "angularCompilerOptions": {

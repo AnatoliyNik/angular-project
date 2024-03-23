@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectorRef, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ModalComponent } from './modal.component';
 
@@ -64,6 +65,10 @@ function setup() {
   class HostTestComponent {
     answer!: boolean;
   }
+
+  TestBed.configureTestingModule({
+    imports: [TranslateModule.forRoot()]
+  })
 
   const fixture: ComponentFixture<HostTestComponent> = TestBed.createComponent<HostTestComponent>(HostTestComponent);
   const modalDebugEl: DebugElement = fixture.debugElement.query(By.directive(ModalComponent));

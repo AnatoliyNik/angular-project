@@ -4,32 +4,32 @@
     [formGroup]="form"
     (ngSubmit)="onLogin()"
   >
-    <h1>{{ title }}</h1>
+    <h1>{{ 'LOGIN_PAGE.FORM.TITLE' | translate }}</h1>
 
     <div class="field">
       <p class="label">
-        <label for="name">{{ nameLabelText }}</label>
-        <span>{{ required }}</span>
+        <label for="name">{{ 'LOGIN_PAGE.FORM.INPUTS.NAME.LABEL' | translate }}</label>
+        <span>{{ 'REQUIRED' | translate }}</span>
       </p>
       <input
         id="name"
         type="text"
         class="form-control"
-        [placeholder]="nameInputPlaceholderText"
+        placeholder="{{ 'LOGIN_PAGE.FORM.INPUTS.NAME.PLACEHOLDER' | translate }}"
         formControlName="name"
       >
     </div>
 
     <div class="field">
       <p class="label">
-        <label for="password">{{ passwordLabelText }}</label>
-        <span>{{ required }}</span>
+        <label for="password">{{ 'LOGIN_PAGE.FORM.INPUTS.PASSWORD.LABEL' | translate }}</label>
+        <span>{{ 'REQUIRED' | translate }}</span>
       </p>
       <input
         id="password"
         type="password"
         class="form-control"
-        [placeholder]="passwordInputPlaceholderText"
+        placeholder="{{ 'LOGIN_PAGE.FORM.INPUTS.PASSWORD.PLACEHOLDER' | translate }}"
         formControlName="password"
       >
     </div>
@@ -45,14 +45,14 @@
         class="btn btn-link"
         type="button"
       >
-        {{ forgotButtonText }}
+        {{ 'LOGIN_PAGE.FORM.BUTTONS.FORGOT' | translate }}
       </button>
 
       <button
         class="btn btn-success btn-large"
         [disabled]="form.invalid || form.pending"
       >
-        {{ loginButtonText }}
+        {{ 'LOGIN_PAGE.FORM.BUTTONS.LOGIN' | translate }}
       </button>
     </div>
   </form>

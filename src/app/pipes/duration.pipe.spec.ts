@@ -1,10 +1,21 @@
 import { DurationPipe } from './duration.pipe';
+import { TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;
+  let translateService: TranslateService;
 
   beforeEach(() => {
-    pipe = new DurationPipe();
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      providers: [DurationPipe]
+    });
+
+    pipe = TestBed.inject(DurationPipe);
+    translateService = TestBed.inject(TranslateService);
+
+    spyOn(translateService, 'instant');
   });
 
   it('create an instance', () => {
@@ -13,25 +24,22 @@ describe('DurationPipe', () => {
 
   it('should properly build the datetime: "Xh YYmin"', () => {
     const minutes = 100;
+    pipe.transform(minutes);
 
-    expect(pipe.transform(minutes)).toBe('1h 40min');
+    expect(translateService.instant).toHaveBeenCalledWith('COURSE.DURATION.SHORT_TIME', {hours: 1, minutes: 40});
   });
 
   it('should display only minutes if time less than 1 hour', () => {
     const minutes = 50;
+    pipe.transform(minutes);
 
-    expect(pipe.transform(minutes)).toBe('50 minutes');
+    expect(translateService.instant).toHaveBeenCalledWith('COURSE.DURATION.FULL_TIME', {minutes: 50});
   });
 
-  it('should display "0 minutes" if it receive negative number', () => {
+  it('should transform to 0 if it receive negative number', () => {
     const minutes = -32;
+    pipe.transform(minutes);
 
-    expect(pipe.transform(minutes)).toBe('0 minutes');
-  });
-
-  it('should display "1 minute" if receive number 1', () => {
-    const minutes = 1;
-
-    expect(pipe.transform(minutes)).toBe('1 minute');
+    expect(translateService.instant).toHaveBeenCalledWith('COURSE.DURATION.FULL_TIME', {minutes: 0});
   });
 });

@@ -9,7 +9,7 @@
       <svg>
         <use href="assets/icons.svg#add"></use>
       </svg>
-      <span>{{ addCourseButtonText }}</span>
+      <span>{{ 'COURSES_PAGE.BUTTONS.ADD_COURSE' | translate }}</span>
     </button>
 
     @if (error()) {
@@ -20,6 +20,7 @@
         <app-course
           [course]="course"
           [deleteError]="deleteError()"
+          [locale]="locale()"
           (delete)="onDeleteCourse($event)"
           (edit)="onEditCourse($event)"
         />
@@ -34,14 +35,14 @@
           class="btn btn-load"
           (click)="loadMore()"
         >
-          {{ loadMoreButtonText | uppercase }}
+          {{ 'COURSES_PAGE.BUTTONS.LOAD_MORE' | translate }}
         </button>
       } @else {
         <p
           data-testId="noCourseMessage"
           class="message"
         >
-          {{ noCoursesMessage | uppercase }}
+          {{ 'COURSES_PAGE.MESSAGES.NO_COURSES' | translate }}
         </p>
       }
     }

@@ -9,6 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { DurationComponent } from '@component/pages/handle-course-page/components/duration/duration.component';
 import { DateComponent } from '@component/pages/handle-course-page/components/date/date.component';
@@ -16,12 +17,14 @@ import { AuthorsComponent } from '@component/pages/handle-course-page/components
 import { HandleCourseForm } from '@models/handle-course-form.model';
 import { Course } from '@models/course.model';
 import { Author } from '@models/author.model';
-import { descriptionMaxLength, editCourseRouteResolverKey, routePath, titleMaxLength } from '@data/constants';
+import { descriptionMaxLength, editCourseRouteResolverKey, RoutePath, titleMaxLength } from '@data/constants';
 
 import { Store } from '@ngrx/store';
 import { coursesFeature } from '@store/features/courses-page.feature';
 import { coursesPageActions } from '@store/actions/courses-page.actions';
 import { ShowErrorDirective } from '@directives/show-error.directive';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-handle-course-page',
@@ -31,37 +34,24 @@ import { ShowErrorDirective } from '@directives/show-error.directive';
     DateComponent,
     AuthorsComponent,
     ReactiveFormsModule,
-    ShowErrorDirective
+    ShowErrorDirective,
+    TranslateModule,
+    AsyncPipe
   ],
   templateUrl: './handle-course-page.component.html',
   styleUrl: './handle-course-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HandleCoursePageComponent implements OnInit {
-  readonly required = '*required';
-  readonly titleLabelText = 'Title:';
-  readonly titleInputPlaceholderText = 'Add title';
-  readonly descriptionLabelText = 'Description:';
-  readonly descriptionTextareaPlaceholderText = 'Add description';
-  readonly durationLabelText = 'Duration:';
-  readonly durationComponentPlaceholderText = 'minutes';
-  readonly dateLabelText = 'Date:';
-  readonly dateComponentPlaceholderText = 'DD/MM/YYYY';
-  readonly authorsLabelText = 'Authors:';
-  readonly authorsComponentPlaceholderText = 'Start typing';
-  readonly cancelButtonText = 'Cancel';
-  readonly saveButtonText = 'Save';
-  readonly newCoursePageTitle = 'New course';
-  readonly editCoursePageTitle = 'Edit course';
-  pageTitle = this.newCoursePageTitle;
-
-  handleCourseForm!: FormGroup<HandleCourseForm>;
-  course?: Course;
-
+  private translateService: TranslateService = inject(TranslateService);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
   private destroyRef: DestroyRef = inject(DestroyRef);
   private store: Store = inject(Store);
+
+  pageTitle: Observable<string> = this.translateService.stream('HANDLE_COURSE_PAGE.TITLE_NEW');
+  handleCourseForm!: FormGroup<HandleCourseForm>;
+  course?: Course;
 
   error: Signal<string> = this.store.selectSignal(coursesFeature.selectHandle);
 
@@ -92,7 +82,7 @@ export class HandleCoursePageComponent implements OnInit {
       this.course = data[editCourseRouteResolverKey];
 
       if (this.course) {
-        this.pageTitle = this.editCoursePageTitle;
+        this.pageTitle = this.translateService.stream('HANDLE_COURSE_PAGE.TITLE_EDIT');
 
         this.handleCourseForm.setValue({
           title: this.course.title,
@@ -134,6 +124,6 @@ export class HandleCoursePageComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate([routePath.courses]);
+    this.router.navigate([RoutePath.Courses]);
   }
 }

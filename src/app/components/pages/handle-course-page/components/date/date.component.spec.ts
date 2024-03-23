@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { DateComponent } from './date.component';
 
@@ -27,7 +28,8 @@ describe('DateComponent', () => {
 
 function setup() {
   TestBed.configureTestingModule({
-    imports: [NoopAnimationsModule]
+    imports: [NoopAnimationsModule],
+    providers: [provideMomentDateAdapter()]
   });
 
   const fixture: ComponentFixture<DateComponent> = TestBed.createComponent(DateComponent);

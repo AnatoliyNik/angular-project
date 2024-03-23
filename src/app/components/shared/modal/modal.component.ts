@@ -4,19 +4,19 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [],
+  imports: [
+    TranslateModule
+  ],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalComponent {
-  readonly okButtonText = 'Ok';
-  readonly cancelButtonText = 'Cancel';
-
   title = '';
   text = '';
 

@@ -12,21 +12,24 @@
     </button>
   </header>
 
-  <main class="content">{{ text }}</main>
+  <main
+    class="content"
+    [innerHTML]="text"
+  ></main>
 
   <footer class="actions">
     <button
       class="btn btn-large cancel"
       (click)="onAnswer(false)"
     >
-      {{ cancelButtonText }}
+      {{ 'MODAL.BUTTONS.CANCEL' | translate }}
     </button>
 
     <button
       class="btn btn-large btn-success"
       (click)="onAnswer(true)"
     >
-      {{ okButtonText }}
+      {{ 'MODAL.BUTTONS.OK' | translate }}
     </button>
   </footer>
 </section>

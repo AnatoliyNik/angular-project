@@ -1,26 +1,47 @@
 <div class="container">
-    <app-logo />
+  <app-logo/>
 
+  <div class="auth-container">
     <ul
       *appIfAuthenticated
       class="login"
     >
-        <li>
-            <svg>
-                <use href="assets/icons.svg#user"></use>
-            </svg>
-            <span>{{ userName() }}</span>
-        </li>
-        <li>
-            <button
-              class="btn btn-link"
-              (click)="onLogout()"
-            >
-                <svg>
-                    <use href="assets/icons.svg#logout"></use>
-                </svg>
-                <span>{{ logoutButtonText }}</span>
-            </button>
-        </li>
+      <li>
+        <svg>
+          <use href="assets/icons.svg#user"></use>
+        </svg>
+        <span>{{ userName() }}</span>
+      </li>
+
+      <li>
+        <button
+          class="btn btn-link"
+          (click)="onLogout()"
+        >
+          <svg>
+            <use href="assets/icons.svg#logout"></use>
+          </svg>
+          <span>{{ 'HEADER.BUTTONS.LOGOUT' | translate }}</span>
+        </button>
+      </li>
     </ul>
+
+    <div class="language-container">
+      <svg>
+        <use href="assets/icons.svg#world"></use>
+      </svg>
+
+      <mat-select
+        class="language-panel"
+        [value]="currentLanguage()"
+        panelWidth="null"
+        hideSingleSelectionIndicator
+        (selectionChange)="onSelectLanguage($event)"
+      >
+        @for (language of languages; track language) {
+          <mat-option [value]="language">{{ language }}</mat-option>
+        }
+      </mat-select>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SearchComponent } from './search.component';
 
@@ -54,6 +55,10 @@ function setup() {
   class HostSearchComponent {
     searchText!: string;
   }
+
+  TestBed.configureTestingModule({
+    imports: [TranslateModule.forRoot()]
+  })
 
   const fixture: ComponentFixture<HostSearchComponent> = TestBed.createComponent(HostSearchComponent);
   const searchDebugEl: DebugElement = fixture.debugElement.query(By.directive(SearchComponent));

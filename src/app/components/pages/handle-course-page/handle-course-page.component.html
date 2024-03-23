@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-container">
-    <h1 class="title">{{ pageTitle }}</h1>
+    <h1 class="title">{{ pageTitle | async }}</h1>
 
     <form
       class="form-handle"
@@ -9,66 +9,66 @@
     >
       <div class="form-field">
         <div class="label">
-          <label for="title">{{ titleLabelText }}</label>
-          <span>{{ required }}</span>
+          <label for="title">{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.TITLE.LABEL' | translate }}</label>
+          <span>{{ 'REQUIRED' | translate }}</span>
         </div>
 
         <input
           id="title"
           type="text"
           class="form-control"
-          [placeholder]="titleInputPlaceholderText"
+          placeholder="{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.TITLE.PLACEHOLDER' | translate }}"
           formControlName="title"
         >
       </div>
 
       <div class="form-field">
         <div class="label">
-          <label for="description">{{ descriptionLabelText }}</label>
-          <span>{{ required }}</span>
+          <label for="description">{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DESCRIPTION.LABEL' | translate }}</label>
+          <span>{{ 'REQUIRED' | translate }}</span>
         </div>
 
         <textarea
           id="description"
           type="text"
           class="form-control "
-          [placeholder]="descriptionTextareaPlaceholderText"
+          placeholder="{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DESCRIPTION.PLACEHOLDER' | translate }}"
           formControlName="description"
         ></textarea>
       </div>
 
       <div class="form-field duration">
         <div class="label">
-          <label [for]="'duration'">{{ durationLabelText }}</label>
-          <span>{{ required }}</span>
+          <label [for]="'duration'">{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DURATION.LABEL' | translate }}</label>
+          <span>{{ 'REQUIRED' | translate }}</span>
         </div>
 
         <app-duration
-          [placeholder]="durationComponentPlaceholderText"
+          placeholder="{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DURATION.PLACEHOLDER' | translate }}"
           formControlName="duration"
         />
       </div>
 
       <div class="form-field date">
         <div class="label">
-          <label [for]="'date'">{{ dateLabelText }}</label>
-          <span>{{ required }}</span>
+          <label [for]="'date'">{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DATE.LABEL' | translate }}</label>
+          <span>{{ 'REQUIRED' | translate }}</span>
         </div>
 
         <app-date
-          [placeholder]="dateComponentPlaceholderText"
+          placeholder="{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.DATE.PLACEHOLDER' | translate }}"
           formControlName="creationDate"
         />
       </div>
 
       <div class="form-field">
         <div class="label">
-          <label [for]="'authors'">{{ authorsLabelText }}</label>
-          <span>{{ required }}</span>
+          <label [for]="'authors'">{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.AUTHORS.LABEL' | translate }}</label>
+          <span>{{ 'REQUIRED' | translate }}</span>
         </div>
 
         <app-authors
-          [placeholder]="authorsComponentPlaceholderText"
+          placeholder="{{ 'HANDLE_COURSE_PAGE.FORM.INPUTS.AUTHORS.PLACEHOLDER' | translate }}"
           formControlName="authors"
         />
       </div>
@@ -80,14 +80,14 @@
           (click)="onCancel()"
           data-testingId="handleFormCancelBtn"
         >
-          {{ cancelButtonText }}
+          {{ 'HANDLE_COURSE_PAGE.FORM.BUTTONS.CANCEL' | translate }}
         </button>
 
         <button
           class="btn btn-large btn-success"
           [disabled]="handleCourseForm.invalid ||  handleCourseForm.pending"
         >
-          {{ saveButtonText }}
+          {{ 'HANDLE_COURSE_PAGE.FORM.BUTTONS.SAVE' | translate }}
         </button>
       </div>
     </form>

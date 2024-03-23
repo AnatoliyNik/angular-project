@@ -1,10 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'duration',
-  standalone: true
+  standalone: true,
+  pure: false
 })
 export class DurationPipe implements PipeTransform {
+  private translateService: TranslateService = inject(TranslateService);
 
   transform(value: number): string {
     value = Math.floor(value);
@@ -16,14 +19,10 @@ export class DurationPipe implements PipeTransform {
     const hours = Math.floor(value / 60);
     const minutes = value % 60;
 
-    let result = '';
-
     if (hours) {
-      result = `${hours}h ${minutes}min`;
-    } else {
-      result = minutes === 1 ? `1 minute` : `${minutes} minutes`;
+      return this.translateService.instant('COURSE.DURATION.SHORT_TIME', {hours, minutes});
     }
 
-    return result;
+    return this.translateService.instant('COURSE.DURATION.FULL_TIME', {minutes});
   }
 }

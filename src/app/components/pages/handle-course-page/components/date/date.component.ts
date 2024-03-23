@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { dateFromString } from '@helpers/date-from-string';
 import { validateDate } from '@helpers/date-validator';
 import { provideMatDateFormats } from '@providers/mat-date-formats.provider';
@@ -17,7 +16,6 @@ import { OnChangeFn } from '@models/on-change-fn.model';
     MatDatepickerInput,
   ],
   providers: [
-    provideMomentDateAdapter(),
     provideMatDateFormats(),
     provideNgValueAccessor(DateComponent)
   ],

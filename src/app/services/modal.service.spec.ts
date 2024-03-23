@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ModalService } from './modal.service';
 
@@ -32,6 +33,10 @@ describe('ModalService', () => {
 });
 
 function setup() {
+  TestBed.configureTestingModule({
+    imports: [TranslateModule.forRoot()]
+  });
+
   const modalService: ModalService = TestBed.inject(ModalService);
 
   return {

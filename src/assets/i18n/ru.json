@@ -1,0 +1,102 @@
+{
+  "LOGIN_PAGE": {
+    "FORM": {
+      "TITLE": "Вход",
+      "INPUTS": {
+        "NAME": {
+          "LABEL": "Имя",
+          "PLACEHOLDER": "Введите имя"
+        },
+        "PASSWORD": {
+          "LABEL": "Пароль",
+          "PLACEHOLDER": "Введите пароль"
+        }
+      },
+      "BUTTONS": {
+        "LOGIN": "Войти",
+        "FORGOT": "Забыли пароль?"
+      }
+    }
+  },
+  "REQUIRED": "*обязательное",
+  "ERRORS": {
+    "REQUIRED": "Это поле обязательное",
+    "MIN": "Это поле обязательное",
+    "MAX_LENGTH": "Максимальная длина - {requiredLength} символ{requiredLength, plural, one {} few {а} other {ов}}. Сейчас - {actualLength} символ{actualLength, plural, one {} few {а} other {ов}}"
+  },
+  "HEADER": {
+    "LOGO": "ВИДЕО КУРС",
+    "BUTTONS": {
+      "LOGOUT": "Выйти"
+    }
+  },
+  "MODAL": {
+    "TITLE": "Удалить курс?",
+    "MESSAGE": "Вы уверены, что хотите удалить <b>\"{title}\"</b>?",
+    "BUTTONS": {
+      "OK": "Хорошо",
+      "CANCEL": "Отмена"
+    }
+  },
+  "FOOTER": "Авторские права © Видео курсы. Все права защищены",
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404",
+    "BUTTONS": {
+      "BACK": "На главную"
+    }
+  },
+  "COURSES_PAGE": {
+    "BUTTONS": {
+      "ADD_COURSE": "Добавить курс",
+      "LOAD_MORE": "Загрузить еще"
+    },
+    "MESSAGES": {
+      "NO_COURSES": "Нет данных. Не стесняйтесь добавлять новый курс"
+    }
+  },
+  "SEARCH": {
+    "PLACEHOLDER": "Введите для поиска"
+  },
+  "COURSE": {
+    "BUTTONS": {
+      "EDIT": "Редактировать",
+      "DELETE": "Удалить"
+    },
+    "DURATION": {
+      "SHORT_TIME": "{hours}ч {minutes}мин",
+      "FULL_TIME": "{minutes} минут{minutes, plural, one {а} few {ы} other {}}"
+    }
+  },
+  "HANDLE_COURSE_PAGE": {
+    "TITLE_NEW": "Новый курс",
+    "TITLE_EDIT": "Редактировать курс",
+    "FORM": {
+      "INPUTS": {
+        "TITLE": {
+          "LABEL": "Заголовок:",
+          "PLACEHOLDER": "Добавить заголовок"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Описание:",
+          "PLACEHOLDER": "Добавить описание"
+        },
+        "DURATION": {
+          "LABEL": "Длительность:",
+          "PLACEHOLDER": "Минуты"
+        },
+        "DATE": {
+          "LABEL": "Дата:",
+          "PLACEHOLDER": "ДД/ММ/ГГГГ"
+        },
+        "AUTHORS": {
+          "LABEL": "Авторы:",
+          "PLACEHOLDER": "Начните печатать"
+        }
+      },
+      "BUTTONS": {
+        "CANCEL": "Отмена",
+        "SAVE": "Сохранить"
+      }
+    }
+  }
+}

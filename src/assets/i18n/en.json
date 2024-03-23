@@ -1,0 +1,102 @@
+{
+  "LOGIN_PAGE": {
+    "FORM": {
+      "TITLE": "Login",
+      "INPUTS": {
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Enter name"
+        },
+        "PASSWORD": {
+          "LABEL": "Password",
+          "PLACEHOLDER": "Enter password"
+        }
+      },
+      "BUTTONS": {
+        "LOGIN": "Login",
+        "FORGOT": "Forgot password?"
+      }
+    }
+  },
+  "REQUIRED": "*required",
+  "ERRORS": {
+    "REQUIRED": "This field is required",
+    "MIN": "This field is required",
+    "MAX_LENGTH": "Maximum allowed - {requiredLength} symbol{requiredLength, plural, one {} other {s}}. Now it is - {actualLength} symbol{actualLength, plural, one {} other {s}}"
+  },
+  "HEADER": {
+    "LOGO": "VIDEO COURSE",
+    "BUTTONS": {
+      "LOGOUT": "Log out"
+    }
+  },
+  "MODAL": {
+    "TITLE": "Delete course?",
+    "MESSAGE": "Are you sure you want to delete <b>\"{title}\"</b>?",
+    "BUTTONS": {
+      "OK": "Ok",
+      "CANCEL": "Cancel"
+    }
+  },
+  "FOOTER": "Copyright © Video courses. All rights reserved",
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404",
+    "BUTTONS": {
+      "BACK": "Go to main page"
+    }
+  },
+  "COURSES_PAGE": {
+    "BUTTONS": {
+      "ADD_COURSE": "Add course",
+      "LOAD_MORE": "Load more"
+    },
+    "MESSAGES": {
+      "NO_COURSES": "No data. Feel free to add new course"
+    }
+  },
+  "SEARCH": {
+    "PLACEHOLDER": "Type to search"
+  },
+  "COURSE": {
+    "BUTTONS": {
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "DURATION": {
+      "SHORT_TIME": "{hours}h {minutes}min",
+      "FULL_TIME": "{minutes} minute{minutes, plural, one {} other {s}}"
+    }
+  },
+  "HANDLE_COURSE_PAGE": {
+    "TITLE_NEW": "New course",
+    "TITLE_EDIT": "Edit course",
+    "FORM": {
+      "INPUTS": {
+        "TITLE": {
+          "LABEL": "Title:",
+          "PLACEHOLDER": "Add title"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description:",
+          "PLACEHOLDER": "Add description"
+        },
+        "DURATION": {
+          "LABEL": "Duration:",
+          "PLACEHOLDER": "Minutes"
+        },
+        "DATE": {
+          "LABEL": "Date:",
+          "PLACEHOLDER": "DD/MM/YYYY"
+        },
+        "AUTHORS": {
+          "LABEL": "Authors:",
+          "PLACEHOLDER": "Start typing"
+        }
+      },
+      "BUTTONS": {
+        "CANCEL": "Cancel",
+        "SAVE": "Save"
+      }
+    }
+  }
+}
